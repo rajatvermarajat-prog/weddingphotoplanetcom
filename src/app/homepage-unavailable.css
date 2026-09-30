@@ -1,0 +1,24 @@
+.wpp-homepage-unavailable {
+  color: #151515;
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 64px 24px;
+}
+
+.wpp-homepage-unavailable h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 18px;
+}
+
+.wpp-homepage-unavailable p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.wpp-homepage-unavailable code {
+  background: #f1eee9;
+  padding: 2px 5px;
+}

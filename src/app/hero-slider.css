@@ -1,0 +1,6 @@
+/* Homepage hero slider: image fills full width (no blurred side bars), height unchanged.
+   Overrides object-fit: contain from public/assets/css/site-layout.css. */
+html body main#main-content > section.main-banner.wpp-home-hero #carousel-1 .carousel-inner > .item > img.wpp-hero-slide-image {
+  object-fit: cover !important;
+  object-position: center center;
+}

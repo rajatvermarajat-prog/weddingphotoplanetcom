@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../generated/prisma/blog"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("BLOG_DATABASE_URL")
+}
+
+model BlogCategory {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(100)
+  slug        String  @unique @db.VarChar(100)
+  description String? @db.Text
+  postLinks   BlogPostCategory[]
+
+  @@map("categories")
+}
+
+model BlogComment {
+  id          Int               @id @default(autoincrement())
+  postId      Int               @map("post_id")
+  userId      Int?              @map("user_id")
+  authorName  String?           @map("author_name") @db.VarChar(100)
+  authorEmail String?           @map("author_email") @db.VarChar(100)
+  content     String            @db.Text
+  status      BlogCommentStatus @default(pending)
+  createdAt   DateTime?         @default(now()) @map("created_at") @db.DateTime(0)
+  post        BlogPost          @relation(fields: [postId], references: [id], onDelete: Cascade, map: "comments_ibfk_1")
+  user        BlogUser?         @relation(fields: [userId], references: [id], map: "comments_ibfk_2")
+
+  @@index([postId], map: "post_id")
+  @@index([userId], map: "user_id")
+  @@map("comments")
+}
+
+model BlogMedia {
+  id         Int       @id @default(autoincrement())
+  userId     Int       @map("user_id")
+  filePath   String    @map("file_path") @db.VarChar(255)
+  fileName   String    @map("file_name") @db.VarChar(255)
+  mimeType   String?   @map("mime_type") @db.VarChar(100)
+  uploadedAt DateTime? @default(now()) @map("uploaded_at") @db.DateTime(0)
+  user       BlogUser  @relation(fields: [userId], references: [id], map: "media_ibfk_1")
+
+  @@index([userId], map: "user_id")
+  @@map("media")
+}
+
+model BlogPost {
+  id                 Int              @id @default(autoincrement())
+  userId             Int              @map("user_id")
+  title              String           @db.VarChar(255)
+  slug               String           @unique @db.VarChar(255)
+  canonicalUrl       String?          @map("canonical_url") @db.VarChar(500)
+  content            String           @db.Text
+  excerpt            String?          @db.Text
+  status             BlogPostStatus   @default(draft)
+  createdAt          DateTime?        @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt          DateTime?        @default(now()) @updatedAt @map("updated_at") @db.DateTime(0)
+  publishedAt        DateTime?        @map("published_at") @db.DateTime(0)
+  featuredImage      String?          @map("featured_image") @db.VarChar(255)
+  featuredImageAlt   String?          @map("featured_image_alt") @db.VarChar(255)
+  metaTitle          String?          @map("meta_title") @db.VarChar(255)
+  metaKeywords       String?          @map("meta_keywords") @db.VarChar(255)
+  metaDescription    String?          @map("meta_description") @db.Text
+  indexStatus        BlogIndexStatus? @default(index) @map("index_status")
+  schemaType         String?          @default("BlogPosting") @map("schema_type") @db.VarChar(50)
+  schemaOrganization String?          @map("schema_organization") @db.VarChar(255)
+  schemaLogo         String?          @map("schema_logo") @db.VarChar(500)
+  author             BlogUser         @relation(fields: [userId], references: [id], map: "posts_ibfk_1")
+  categoryLinks      BlogPostCategory[]
+  tagLinks           BlogPostTag[]
+  comments           BlogComment[]
+
+  @@index([userId], map: "user_id")
+  @@map("posts")
+}
+
+model BlogPostCategory {
+  postId     Int @map("post_id")
+  categoryId Int @map("category_id")
+  post       BlogPost     @relation(fields: [postId], references: [id], onDelete: Cascade, map: "post_categories_ibfk_1")
+  category   BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "post_categories_ibfk_2")
+
+  @@id([postId, categoryId])
+  @@index([categoryId], map: "category_id")
+  @@map("post_categories")
+}
+
+model BlogPostTag {
+  postId Int @map("post_id")
+  tagId  Int @map("tag_id")
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade, map: "post_tags_ibfk_1")
+  tag    BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade, map: "post_tags_ibfk_2")
+
+  @@id([postId, tagId])
+  @@index([tagId], map: "tag_id")
+  @@map("post_tags")
+}
+
+model BlogSetting {
+  id           Int       @id @default(autoincrement())
+  settingKey   String    @unique @map("setting_key") @db.VarChar(100)
+  settingValue String?   @map("setting_value") @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+
+  @@map("settings")
+}
+
+model BlogTag {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+  slug String @unique @db.VarChar(100)
+  postLinks BlogPostTag[]
+
+  @@map("tags")
+}
+
+model BlogUser {
+  id          Int          @id @default(autoincrement())
+  username    String       @unique @db.VarChar(50)
+  email       String       @unique @db.VarChar(100)
+  password    String       @db.VarChar(255)
+  displayName String?      @map("display_name") @db.VarChar(100)
+  role        BlogUserRole @default(author)
+  createdAt   DateTime?    @default(now()) @map("created_at") @db.DateTime(0)
+  posts       BlogPost[]
+  media       BlogMedia[]
+  comments    BlogComment[]
+
+  @@map("users")
+}
+
+enum BlogCommentStatus {
+  pending
+  approved
+  spam
+  trash
+}
+
+enum BlogPostStatus {
+  draft
+  published
+  archived
+  trash
+}
+
+enum BlogIndexStatus {
+  index
+  noindex
+}
+
+enum BlogUserRole {
+  admin
+  author
+  editor
+}

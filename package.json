@@ -1,0 +1,36 @@
+{
+  "name": "wedding-photo-planet-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prisma:generate": "prisma generate --schema prisma/main/schema.prisma && prisma generate --schema prisma/blog/schema.prisma",
+    "prisma:validate": "prisma validate --schema prisma/main/schema.prisma && prisma validate --schema prisma/blog/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "6.12.0",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.36.0",
+    "eslint-config-next": "^15.5.4",
+    "prisma": "6.12.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "postcss": "8.5.28"
+  }
+}

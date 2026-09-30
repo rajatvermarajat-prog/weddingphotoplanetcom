@@ -1,0 +1,301 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../generated/prisma/main"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MAIN_DATABASE_URL")
+}
+
+model WidAdmin {
+  id        Int    @id @default(autoincrement()) @db.Int
+  adminName String @map("admin_name") @db.VarChar(20)
+  email     String @db.VarChar(50)
+  pass      String @db.VarChar(2100)
+  loginTime String @map("login_time") @db.VarChar(225)
+  ip        String @db.VarChar(225)
+
+  @@map("wid_admin")
+}
+
+model WidCon {
+  id       Int     @id @default(autoincrement()) @db.Int
+  descText String  @map("desc_text") @db.Text
+  image    String? @db.VarChar(500)
+  title    String? @db.VarChar(500)
+
+  @@map("wid_con")
+}
+
+model WidContact {
+  id          Int     @id @default(autoincrement()) @db.Int
+  slid1       String? @db.VarChar(100)
+  slid2       String? @db.VarChar(100)
+  slid3       String? @db.VarChar(100)
+  mainHeading String? @map("main_heading") @db.VarChar(100)
+  heading2    String? @db.VarChar(100)
+  desc1       String? @db.Text
+  banner1     String? @db.VarChar(100)
+  slid21      String? @db.Text
+  desc21      String? @db.Text
+  img21       String? @db.Text
+  slid22      String? @db.VarChar(100)
+  desc22      String? @db.Text
+  img22       String? @db.VarChar(100)
+  slid23      String? @db.VarChar(100)
+  desc23      String? @db.Text
+  img23       String? @db.VarChar(100)
+  banner2     String? @db.VarChar(100)
+  seoDesc     String? @map("seo_desc") @db.LongText
+  seoKey      String? @map("seo_key") @db.LongText
+  seoTitle    String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_contact")
+}
+
+model WidFooter {
+  id        Int     @id @default(autoincrement()) @db.Int
+  facbook   String? @db.VarChar(100)
+  instagram String? @db.VarChar(100)
+  twitter   String? @db.VarChar(100)
+  linkidn   String? @db.VarChar(100)
+  youtube   String? @db.VarChar(100)
+  tumblr    String? @db.VarChar(100)
+  heading1  String? @db.VarChar(100)
+  heading2  String? @db.VarChar(100)
+  address   String? @db.VarChar(2000)
+  mobile    String? @db.VarChar(100)
+  email1    String? @db.VarChar(100)
+  email2    String? @db.VarChar(100)
+  copyright String? @db.VarChar(500)
+
+  @@map("wid_footer")
+}
+
+model WidGallery {
+  id       Int     @id @default(autoincrement()) @db.Int
+  heading  String? @db.VarChar(100)
+  descr    String? @db.Text
+  banner   String? @db.VarChar(100)
+  heading2 String? @db.VarChar(100)
+  descr2   String? @db.Text
+  heading3 String? @db.VarChar(500)
+  descr4   String? @db.Text
+  seoDesc  String? @map("seo_desc") @db.LongText
+  seoKey   String? @map("seo_key") @db.LongText
+  seoTitle String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_gallery")
+}
+
+model WidHome {
+  id              Int     @id @default(autoincrement()) @db.Int
+  h1              String? @db.VarChar(500)
+  d1              String? @db.Text
+  banner1         String? @db.VarChar(500)
+  h2              String? @db.VarChar(200)
+  d2              String? @db.Text
+  serviceHeading1 String? @map("service_heading1") @db.VarChar(100)
+  serviceImg1     String? @map("service_img1") @db.VarChar(100)
+  servicesDesc1   String? @map("services_desc1") @db.Text
+  serviceHeading2 String? @map("service_heading2") @db.VarChar(100)
+  serviceImg2     String? @map("service_img2") @db.VarChar(100)
+  servicesDesc2   String? @map("services_desc2") @db.Text
+  serviceHeading3 String? @map("service_heading3") @db.VarChar(100)
+  serviceImg3     String? @map("service_img3") @db.VarChar(100)
+  servicesDesc3   String? @map("services_desc3") @db.Text
+  clientHeading   String? @map("client_heading") @db.VarChar(100)
+  reviewDesc1     String? @map("review_desc1") @db.Text
+  client1         String? @db.VarChar(100)
+  clientImg1      String? @map("client_img1") @db.Text
+  reviewDesc2     String? @map("review_desc2") @db.Text
+  client2         String? @db.VarChar(100)
+  clientImg2      String? @map("client_img2") @db.VarChar(100)
+  reviewDesc3     String? @map("review_desc3") @db.Text
+  client3         String? @db.VarChar(100)
+  clientImg3      String? @map("client_img3") @db.VarChar(100)
+  whyChoose       String? @map("why_choose") @db.VarChar(500)
+  whyChooseDec    String? @map("why_choose_dec") @db.Text
+  chose1          String? @db.VarChar(500)
+  chose2          String? @db.VarChar(500)
+  chose3          String? @db.VarChar(500)
+  chose4          String? @db.VarChar(500)
+  chose5          String? @db.VarChar(500)
+  chose6          String? @db.VarChar(500)
+  chose7          String? @db.VarChar(500)
+  chose8          String? @db.VarChar(500)
+  chose9          String? @db.VarChar(500)
+  chose10         String? @db.VarChar(500)
+  banner2         String? @db.VarChar(100)
+  ab2Heading      String? @map("ab2_heading") @db.VarChar(100)
+  ab2Desc1        String? @map("ab2_desc1") @db.Text
+  ab2Desc2        String? @map("ab2_desc2") @db.Text
+  ab2Desc3        String? @map("ab2_desc3") @db.Text
+  ab2Desc4        String? @map("ab2_desc4") @db.Text
+  ab2Desc5        String? @map("ab2_desc5") @db.Text
+  ab2Slid1        String? @map("ab2_slid1") @db.VarChar(100)
+  ab2Slid2        String? @map("ab2_slid2") @db.VarChar(100)
+  ab2Slid3        String? @map("ab2_slid3") @db.VarChar(100)
+  phHeading       String? @map("ph_heading") @db.VarChar(200)
+  phDesc          String? @map("ph_desc") @db.Text
+  banner3         String? @db.VarChar(100)
+  seoDesc         String? @map("seo_desc") @db.LongText
+  seoKey          String? @map("seo_key") @db.LongText
+  seoTitle        String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_home")
+}
+
+model WidHomeGallery {
+  id         Int     @id @default(autoincrement()) @db.Int
+  title      String? @db.VarChar(100)
+  buttonName String? @map("button_name") @db.VarChar(100)
+  url        String? @db.VarChar(500)
+
+  @@map("wid_home_gallery")
+}
+
+model WidPreWeddingPage {
+  id       Int     @id @default(autoincrement()) @db.Int
+  heading1 String? @db.VarChar(100)
+  disc1    String? @db.Text
+  banner1  String? @db.VarChar(100)
+  heading2 String? @db.VarChar(100)
+  desc2    String? @db.Text
+  heading3 String? @db.VarChar(100)
+  banner2  String? @db.VarChar(100)
+  desc3    String? @db.Text
+  banner3  String? @db.VarChar(100)
+  desc4    String? @db.Text
+  banner4  String? @db.VarChar(100)
+  heading4 String? @db.VarChar(100)
+  banner5  String? @db.VarChar(100)
+  banner6  String? @db.VarChar(100)
+  banner7  String? @db.VarChar(100)
+  heading5 String? @db.VarChar(100)
+  banner8  String? @db.VarChar(100)
+  desc5    String  @db.Text
+  desc6    String  @db.Text
+  seoDesc  String? @map("seo_desc") @db.LongText
+  seoKey   String? @map("seo_key") @db.LongText
+  seoTitle String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_pre_wid")
+}
+
+model WidProduct {
+  id          Int     @id @default(autoincrement()) @db.Int
+  pageSlug    String? @map("page_slug") @db.VarChar(500)
+  productName String? @map("product_name") @db.VarChar(100)
+  category    String? @db.VarChar(100)
+  heroImg     String? @map("hero_img") @db.VarChar(200)
+  heading1    String? @db.VarChar(100)
+  desc1       String? @db.LongText
+  banner1     String? @db.VarChar(100)
+  heading2    String? @db.VarChar(200)
+  desc2       String? @db.LongText
+  heading3    String? @db.VarChar(200)
+  desc3       String? @db.LongText
+  banner2     String? @db.Text
+  desc4       String? @db.Text
+  seoDesc     String? @map("seo_desc") @db.LongText
+  seoKey      String? @map("seo_key") @db.LongText
+  seoTitle    String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_product")
+}
+
+model WidProductImage {
+  id     Int                   @id @default(autoincrement()) @db.Int
+  pid    String                @db.VarChar(100)
+  name   String                @db.LongText
+  type   String                @db.LongText
+  altImg String?               @map("alt_img") @db.LongText
+  status WidProductImageStatus @default(draft)
+
+  @@map("wid_product_image")
+}
+
+model WidProductSlider {
+  id        Int     @id @default(autoincrement()) @db.Int
+  imageName String? @map("image_name") @db.VarChar(200)
+  pid       String? @db.VarChar(11)
+
+  @@map("wid_product_slider")
+}
+
+model WidSlide {
+  id         Int     @id @default(autoincrement()) @db.Int
+  parantId   String? @map("parant_id") @db.VarChar(100)
+  parantName String? @map("parant_name") @db.VarChar(50)
+  imageName  String? @map("image_name") @db.VarChar(500)
+
+  @@map("wid_slide")
+}
+
+model WidTestimonial {
+  id         Int     @id @default(autoincrement()) @db.Int
+  descText   String? @map("desc_text") @db.Text
+  clientName String? @map("client_name") @db.VarChar(200)
+  image      String? @db.VarChar(500)
+
+  @@map("wid_testimonial")
+}
+
+model WidVideo {
+  id   Int     @id @default(autoincrement()) @db.Int
+  name String? @db.VarChar(500)
+  url  String? @db.VarChar(500)
+
+  @@map("wid_video")
+}
+
+model WidVideoDescription {
+  id       Int     @id @default(autoincrement()) @db.Int
+  heading1 String? @db.VarChar(100)
+  desc1    String? @db.Text
+  banner1  String? @db.VarChar(100)
+  heading2 String? @db.VarChar(200)
+  desc2    String? @db.Text
+  banner2  String? @db.VarChar(100)
+  heading3 String? @db.VarChar(100)
+  desc3    String? @db.Text
+  heading4 String? @db.VarChar(100)
+  desc4    String? @db.Text
+  banner3  String? @db.VarChar(100)
+  seoDesc  String? @map("seo_desc") @db.LongText
+  seoKey   String? @map("seo_key") @db.LongText
+  seoTitle String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_video_dec")
+}
+
+model WidWeddingPage {
+  id       Int     @id @default(autoincrement()) @db.Int
+  heading1 String? @db.VarChar(200)
+  desc1    String? @db.Text
+  banner1  String? @db.VarChar(200)
+  heading2 String? @db.VarChar(200)
+  desc2    String? @db.Text
+  heading3 String? @db.VarChar(200)
+  banner2  String? @db.VarChar(200)
+  banner3  String? @db.VarChar(200)
+  heading4 String? @db.VarChar(200)
+  banner4  String? @db.VarChar(200)
+  desc3    String? @db.Text
+  heading5 String? @db.VarChar(200)
+  banner5  String? @db.Text
+  desc4    String? @db.Text
+  desc5    String? @db.Text
+  seoDesc  String? @map("seo_desc") @db.LongText
+  seoKey   String? @map("seo_key") @db.LongText
+  seoTitle String? @map("seo_title") @db.VarChar(500)
+
+  @@map("wid_wid")
+}
+
+enum WidProductImageStatus {
+  active
+  draft
+}

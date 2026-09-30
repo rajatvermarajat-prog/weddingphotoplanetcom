@@ -1,0 +1,77 @@
+/* Homepage "Our Vision": banner stays pinned while the vision card scrolls over it. */
+
+/* Legacy CSS sets overflow-x:hidden on these, which turns them into scroll containers
+   and breaks position:sticky. `clip` still prevents horizontal scroll without that side effect. */
+html body,
+html body .wrapper.home,
+html body .wrapper.home > main#main-content {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.wpp-vision {
+  background: #000;
+  position: relative;
+}
+
+/* clip-path on the section clips the position:fixed image to the section's box,
+   so the photo stays still like a window while the page scrolls past it. */
+.wpp-vision--has-media {
+  clip-path: inset(0);
+  height: 55vh;
+  height: 55svh;
+}
+
+.wpp-vision__media {
+  height: 100vh;
+  inset: 0 0 auto;
+  position: fixed;
+  z-index: 0;
+}
+
+.wpp-vision__media img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Original "Our Vision" block, with breathing room before Our Services. */
+.wpp-vision__text-section {
+  background: #fff;
+  position: relative;
+}
+
+/* Equal space above the heading and below the text. */
+main#main-content .about-us.wpp-vision__text-section {
+  margin: 0;
+  padding: 24px 0;
+}
+
+main#main-content .wpp-vision__text-section .titlebar,
+main#main-content .wpp-vision__text-section .titlebar h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+main#main-content .wpp-vision__text-section .wpp-rich-text,
+main#main-content .wpp-vision__text-section .wpp-rich-text > div > :last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Second window between Our Vision and Our Services */
+.wpp-vision--gap {
+  height: 28vh;
+  height: 28svh;
+}
+
+@media (max-width: 900px) {
+  .wpp-vision--has-media {
+    height: 40svh;
+  }
+
+  .wpp-vision--gap {
+    height: 22svh;
+  }
+}
