@@ -6,6 +6,10 @@ import "./hero-slider.css";
 import "./about-intro.css";
 import "./vision-story.css";
 import "./services-slider.css";
+import "./gallery-showcase.css";
+import "./testimonials-carousel.css";
+import "./why-choose.css";
+import "./site-footer.css";
 
 export const dynamic = "force-dynamic";
 

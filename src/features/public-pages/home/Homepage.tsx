@@ -2,7 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AboutIntro } from "./AboutIntro";
+import { GalleryShowcase } from "./GalleryShowcase";
 import { ServicesSlider } from "./ServicesSlider";
+import { SiteFooter } from "./SiteFooter";
+import { TestimonialsCarousel } from "./TestimonialsCarousel";
+import { WhyChooseCarousel } from "./WhyChooseCarousel";
 import { VisionStory } from "./VisionStory";
 import type { HomepageData, HomepageImage } from "./types";
 
@@ -16,16 +20,6 @@ const navItems = [
   { href: "/contact", label: "contact us", title: "Contact Wedding Photo Planet" },
 ] as const;
 
-const footerLinks = [
-  { href: "/", label: "Home", title: "Wedding Photo Planet" },
-  { href: "/images", label: "Images", title: "Our Images" },
-  { href: "/wedding", label: "Wedding", title: "Wedding Photography" },
-  { href: "/pre-wedding", label: "Pre Wedding", title: "Pre Wedding Photography" },
-  { href: "/cinematography", label: "Cinematography", title: "Our Cinematography" },
-  { href: "/blog/", label: "Blog", title: "Our Blog" },
-  { href: "/contact", label: "Contact Us", title: "Contact Wedding Photo Planet" },
-  { href: "/sitemap", label: "Site Map", title: "Our Site Map" },
-] as const;
 
 function HtmlBlock({ html }: { html: string }) {
   if (!html.trim()) {
@@ -178,111 +172,6 @@ function TextSection({ heading, html, headingLevel = "h2" }: { heading: string; 
   );
 }
 
-function Gallery({ images }: { images: HomepageData["galleryImages"] }) {
-  return (
-    <div className="row row-p p-t-10">
-      <TitleBar>Our Gallery</TitleBar>
-      <div className="p-25 s12">
-        {images.length > 0 ? (
-          <div id="latest-work">
-            {images.map((image) => (
-              <a className="img-link" href={image.href} data-src={image.href} aria-label={image.alt} key={image.id}>
-                <Image
-                  className="img-responsive"
-                  src={image.src}
-                  alt={image.alt}
-                  width={640}
-                  height={427}
-                  loading="lazy"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  unoptimized
-                />
-                <span>
-                  <i className="icon-zoom" aria-hidden="true" />
-                </span>
-              </a>
-            ))}
-          </div>
-        ) : null}
-        <div className="home-service-button">
-          <a href="/images" title="Wedding & Pre Wedding Photos">
-            View All
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Testimonials({ testimonials }: { testimonials: HomepageData["testimonials"] }) {
-  if (!testimonials.heading.trim() && testimonials.items.length === 0) {
-    return null;
-  }
-
-  return (
-    <section className="testimonial-bg">
-      <div className="container">
-        <div className="testimonial-titlebar">
-          <h2>{testimonials.heading}</h2>
-          <span className="testimonial-b-line" aria-hidden="true" />
-        </div>
-        <div className="testiSlide">
-          {testimonials.items.map((testimonial) => (
-            <div key={testimonial.id}>
-              <figure className="testimonial">
-                <blockquote>
-                  {testimonial.quote}
-                  <div className="btn" />
-                </blockquote>
-                <LegacyImage image={testimonial.image} sizes="120px" />
-                <div className="peopl">
-                  <h3>{testimonial.clientName} </h3>
-                  <p className="indentity">Client</p>
-                </div>
-              </figure>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function WhyChoose({ whyChoose }: { whyChoose: HomepageData["whyChoose"] }) {
-  if (!whyChoose.heading.trim() && !whyChoose.html.trim() && whyChoose.points.length === 0) {
-    return null;
-  }
-
-  return (
-    <section className="why-choose-us">
-      <div className="container">
-        <div className="col-md-12">
-          <TitleBar>{whyChoose.heading}</TitleBar>
-          <HtmlBlock html={whyChoose.html} />
-        </div>
-        <div className="col-md-12">
-          {whyChoose.points.length > 0 ? (
-            <ul className="why-list">
-              {whyChoose.points.map((point, index) => (
-                <li key={`${index}-${point}`}>
-                  <span>
-                    <i className="fa fa-check" />
-                  </span>{" "}
-                  <HtmlBlock html={point} />
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-        <div className="col-md-12">
-          <HtmlBlock html={whyChoose.closingHtml} />
-          <br />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function AboutPhotography({ about }: { about: HomepageData["about"] }) {
   if (!about.heading.trim() && !about.html.trim() && about.slides.length === 0) {
     return null;
@@ -329,90 +218,6 @@ function AboutPhotography({ about }: { about: HomepageData["about"] }) {
   );
 }
 
-function Footer({ footer }: { footer: HomepageData["footer"] }) {
-  const socials = [
-    ["facebook", "Facebook", "fa-facebook", footer.social.facebook],
-    ["instagram", "Instagram", "fa-instagram", footer.social.instagram],
-    ["youtube", "YouTube", "fa-youtube-play", footer.social.youtube],
-    ["twitter", "Twitter", "fa-twitter", footer.social.twitter],
-    ["linkedin", "LinkedIn", "fa-linkedin", footer.social.linkedin],
-    ["tumblr", "Tumblr", "fa-tumblr", footer.social.tumblr],
-  ] as const;
-
-  return (
-    <footer>
-      <section className="footer-main wpp-footer">
-        <div className="container-fluid wpp-footer__grid">
-          <div className="col-md-2 social-line wpp-footer__col wpp-footer__col--social">
-            <ul className="foter-social-menu wpp-footer-social">
-              {socials.map(([key, label, icon, href]) => (
-                <li key={key}>
-                  <a
-                    href={href}
-                    className={`wpp-footer-social__link wpp-footer-social__link--${key}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Follow us on ${label}`}
-                  >
-                    <i className={`fa ${icon}`} aria-hidden="true" />
-                    <span className="sr-only">{label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="col-md-7 wpp-footer__col wpp-footer__col--contact">
-            <div className="footer-middle-content wpp-footer__contact-inner">
-              <h4>{footer.heading1}</h4>
-              <p>
-                <strong>{footer.heading2}</strong>
-                <br />
-                {footer.address}
-              </p>
-              <p className="wpp-footer__contact-meta">
-                <strong>Phone No</strong> - {footer.mobile}
-                <br />
-                <strong>E-Mail ID</strong> - {footer.email1}
-                <br />
-                <strong>E-Mail ID</strong> {footer.email2}
-              </p>
-            </div>
-          </div>
-          <div className="col-md-3 footer-right-line wpp-footer__col wpp-footer__col--links">
-            <div className="footer-right-content wpp-footer__links-inner">
-              <h4>Quick Link</h4>
-              <ul className="footer-menu">
-                {footerLinks.map((item) => (
-                  <li key={item.href}>
-                    <a href={item.href} title={item.title}>
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="footer-copyright">
-        <div className="container">
-          <div className="copyright-content">
-            <p>{footer.copyright}</p>
-          </div>
-        </div>
-      </section>
-      <a href="https://api.whatsapp.com/send?phone=919990905195" className="float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-        <i className="fa fa-whatsapp my-float" aria-hidden="true" />
-      </a>
-      <a href="tel:919990951995" className="float-mobile" aria-label="Call us">
-        <i className="fa fa-phone my-float" aria-hidden="true" />
-      </a>
-      <a id="back2Top" href="#main-content" aria-label="Back to top">
-        &#10148;
-      </a>
-    </footer>
-  );
-}
 
 // Hand-picked bright, colourful frames from the existing gallery for the About collage.
 const ABOUT_INTRO_IMAGES: HomepageImage[] = [
@@ -439,15 +244,15 @@ export function Homepage({ data }: { data: HomepageData }) {
         <AboutIntro heading={data.intro.heading} lead={ABOUT_INTRO_LEAD} html={data.intro.html} images={ABOUT_INTRO_IMAGES} />
         <VisionStory image={data.firstBanner} heading={data.story.heading} html={data.story.html} />
         <ServicesSlider services={data.services} />
-        <Gallery images={data.galleryImages} />
-        <Testimonials testimonials={data.testimonials} />
-        <WhyChoose whyChoose={data.whyChoose} />
+        <GalleryShowcase images={data.galleryImages} />
+        <TestimonialsCarousel testimonials={data.testimonials} />
+        <WhyChooseCarousel whyChoose={data.whyChoose} images={data.galleryImages} />
         <Banner image={data.secondBanner} />
         <AboutPhotography about={data.about} />
         <TextSection heading={data.photography.heading} html={data.photography.html} />
         <Banner image={data.thirdBanner} />
       </main>
-      <Footer footer={data.footer} />
+      <SiteFooter footer={data.footer} />
     </div>
   );
 }

@@ -1,0 +1,284 @@
+/* Homepage testimonials: centred card carousel on white, autoplay + arrows + dots. */
+
+.wpp-reviews {
+  --wpp-gold: #b08d57;
+  --wpp-gold-deep: #8f6d3b;
+  --wpp-ink: #151412;
+  --wpp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  background: #faf7f2;
+  overflow: hidden;
+  padding: 44px 16px 48px;
+}
+
+/* All cards share one grid cell; position classes slide them left/centre/right. */
+.wpp-reviews__stage {
+  align-items: center;
+  display: grid;
+  margin: 28px auto 0;
+  max-width: 620px;
+  position: relative;
+}
+
+.wpp-reviews__card {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -35px rgba(60, 40, 15, 0.35);
+  cursor: default;
+  grid-area: 1 / 1;
+  margin: 0;
+  padding: 58px 40px 28px;
+  position: relative;
+  transition:
+    transform 0.9s var(--wpp-ease),
+    opacity 0.7s ease,
+    box-shadow 0.9s ease;
+}
+
+.wpp-reviews__card.is-center {
+  opacity: 1;
+  transform: none;
+  z-index: 3;
+}
+
+.wpp-reviews__card.is-left,
+.wpp-reviews__card.is-right {
+  box-shadow: 0 20px 40px -30px rgba(60, 40, 15, 0.25);
+  cursor: pointer;
+  opacity: 0.45;
+  z-index: 2;
+}
+
+.wpp-reviews__card.is-left {
+  transform: translateX(-78%) scale(0.84);
+}
+
+.wpp-reviews__card.is-right {
+  transform: translateX(78%) scale(0.84);
+}
+
+.wpp-reviews__card.is-hidden-left,
+.wpp-reviews__card.is-hidden-right {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wpp-reviews__card.is-hidden-left {
+  transform: translateX(-140%) scale(0.7);
+}
+
+.wpp-reviews__card.is-hidden-right {
+  transform: translateX(140%) scale(0.7);
+}
+
+.wpp-reviews__mark {
+  color: var(--wpp-gold);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 90px;
+  left: 30px;
+  line-height: 1;
+  opacity: 0.35;
+  position: absolute;
+  top: 6px;
+}
+
+.wpp-reviews blockquote {
+  border: 0;
+  color: #3f3b35;
+  display: -webkit-box;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 15.5px;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  line-height: 1.85;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  -webkit-box-orient: vertical;
+}
+
+/* Words of the centred quote drift in softly each time it becomes active */
+.wpp-reviews__card.is-center blockquote,
+.wpp-reviews__card.is-center figcaption {
+  animation: wpp-reviews-in 0.9s var(--wpp-ease) both;
+}
+
+.wpp-reviews__card.is-center figcaption {
+  animation-delay: 0.15s;
+}
+
+.wpp-reviews figcaption {
+  align-items: center;
+  border-top: 1px solid #efe8dc;
+  display: flex;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.wpp-reviews figcaption img {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--wpp-gold);
+  height: 52px;
+  object-fit: cover;
+  width: 52px;
+}
+
+.wpp-reviews figcaption strong {
+  color: var(--wpp-ink);
+  display: block;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.wpp-reviews figcaption small {
+  color: var(--wpp-gold-deep);
+  display: block;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+@keyframes wpp-reviews-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.wpp-reviews__controls {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.wpp-reviews .wpp-reviews__arrow {
+  align-items: center;
+  flex: 0 0 auto;
+  background: #fff;
+  border: 1px solid #ddd3c4;
+  border-radius: 50%;
+  color: var(--wpp-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 22px;
+  height: 46px;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  width: 46px;
+}
+
+.wpp-reviews .wpp-reviews__arrow:hover,
+.wpp-reviews .wpp-reviews__arrow:focus-visible {
+  background: var(--wpp-ink);
+  border-color: var(--wpp-ink);
+  color: #fff;
+}
+
+.wpp-reviews__dots {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+
+/* Each dot is a 24px hit area; the active one stretches into a progress bar. */
+.wpp-reviews .wpp-reviews__dots button {
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  height: 24px;
+  justify-content: center;
+  padding: 0;
+  width: 14px;
+  transition: width 0.5s var(--wpp-ease);
+}
+
+.wpp-reviews .wpp-reviews__dots button.is-active {
+  width: 44px;
+}
+
+.wpp-reviews__dots button i {
+  background: #ddd3c4;
+  border-radius: 999px;
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.wpp-reviews__dots button.is-active i::after {
+  animation: wpp-reviews-progress linear forwards;
+  animation-duration: inherit;
+  background: var(--wpp-gold);
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@keyframes wpp-reviews-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.wpp-reviews .wpp-reviews__arrow:focus-visible,
+.wpp-reviews .wpp-reviews__dots button:focus-visible {
+  outline: 2px solid var(--wpp-gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .wpp-reviews__card {
+    padding: 52px 24px 24px;
+  }
+
+  .wpp-reviews__controls {
+    gap: 10px;
+  }
+
+  .wpp-reviews__dots {
+    gap: 2px;
+  }
+
+  .wpp-reviews .wpp-reviews__dots button {
+    width: 9px;
+  }
+
+  .wpp-reviews .wpp-reviews__dots button.is-active {
+    width: 26px;
+  }
+
+  .wpp-reviews__card.is-left {
+    transform: translateX(-92%) scale(0.86);
+  }
+
+  .wpp-reviews__card.is-right {
+    transform: translateX(92%) scale(0.86);
+  }
+
+  .wpp-reviews__card.is-left,
+  .wpp-reviews__card.is-right {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wpp-reviews *,
+  .wpp-reviews *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
