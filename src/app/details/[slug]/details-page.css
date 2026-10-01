@@ -1,0 +1,132 @@
+/* Client detail page: hero, intro, gallery, pinned banner, gallery, closing copy, final photo. */
+
+.wd-text {
+  background: #fff;
+  padding: 72px 24px 40px;
+}
+
+.wd-text--intro {
+  padding-top: 80px;
+}
+
+.wd-text *,
+.wd-text *::before,
+.wd-text *::after {
+  box-sizing: border-box;
+}
+
+.wd-text__inner {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.wd-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 12px;
+}
+
+.wd-title {
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+  margin: 0 0 18px;
+}
+
+.wd-title--sm {
+  font-size: clamp(24px, 2.6vw, 36px);
+}
+
+.wd-line {
+  display: block;
+  width: 52px;
+  height: 3px;
+  border-radius: 2px;
+  background: #c9a96e;
+  margin: 0 auto 26px;
+}
+
+/* Only the last element before the banner may sit flush, so a heading with no copy keeps a small gap. */
+.wd-text__inner > .wd-line:last-child {
+  margin-bottom: 0;
+}
+
+.wd-body {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #5c5a58;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.wd-body a {
+  color: #9b6a36;
+}
+
+/* Banner */
+main#main-content > section.wd-banner {
+  position: relative;
+  background: #fff;
+}
+
+main#main-content > section.wd-banner > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Pinned: the photo is position:fixed at its natural size, clip-path turns the section into a window onto it. */
+main#main-content > section.wd-banner--pinned {
+  clip-path: inset(0);
+  margin-top: 32px;
+}
+
+main#main-content > section.wd-banner--pinned > img {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Taller photos: fill the screen like a backdrop, the section is a window at most one screen high.
+   Landscape screens only, on portrait screens filling the height would zoom the photo heavily. */
+@media (min-aspect-ratio: 4 / 3) {
+  main#main-content > section.wd-banner--tall {
+    max-height: 100vh;
+    max-height: 100svh;
+  }
+
+  main#main-content > section.wd-banner--tall > img {
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes wd-rise {
+      from { opacity: 0; translate: 0 48px; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+
+    .wd-text__inner {
+      animation: wd-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .wd-text { padding: 48px 20px 28px; }
+  .wd-text--intro { padding-top: 52px; }
+  .wd-body { text-align: left; }
+}

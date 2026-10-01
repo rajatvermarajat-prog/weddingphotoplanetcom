@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { CarouselBanner, FullBanner, ProductGrid, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
+import { CarouselBanner, FullBanner, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
 import { weddingPageContent } from "@/app/_wpp-pages/wedding-data";
+import WeddingClientsSlideshow from "./WeddingClientsSlideshow";
+import WeddingExperienceSlider from "./WeddingExperienceSlider";
+import "./wedding-page.css";
 
 const { content } = weddingPageContent;
 
@@ -11,21 +14,22 @@ export const metadata: Metadata = {
 
 function TwoImageSection() {
   return (
-    <section className="images-page-content-sec">
-      <div className="container">
-        <div className="col-md-12">
-          <div className="titlebar">
-            <h2>{content.heading3}</h2>
-            <span className="b-line" />
-          </div>
-          <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc4 }} />
-          <br />
+    <section className="wx-section">
+      <div className="wx-inner">
+        <div className="wx-copy">
+          <p className="wx-eyebrow">Our Expertise</p>
+          <h2 className="wx-title">{content.heading3}</h2>
+          <span className="wx-line" aria-hidden="true" />
+          <div className="wx-text" dangerouslySetInnerHTML={{ __html: content.desc4 }} />
         </div>
-        <div className="col-md-6 wedding-col-2">
-          <img className="img-responsive" src={content.banner2} alt="Indian Best Wedding Photographers" loading="lazy" decoding="async" width="640" height="360" />
-        </div>
-        <div className="col-md-6 wedding-col-2">
-          <img className="img-responsive" src={content.banner3} alt="Candid Photography in Delhi NCR" loading="lazy" decoding="async" width="640" height="360" />
+        <div className="wx-media">
+          <span className="wx-frame" aria-hidden="true" />
+          <figure className="wx-photo wx-photo--back">
+            <img src={content.banner2} alt="Indian Best Wedding Photographers" loading="lazy" decoding="async" width="960" height="640" />
+          </figure>
+          <figure className="wx-photo wx-photo--front">
+            <img src={content.banner3} alt="Candid Photography in Delhi NCR" loading="lazy" decoding="async" width="960" height="640" />
+          </figure>
         </div>
       </div>
     </section>
@@ -34,38 +38,17 @@ function TwoImageSection() {
 
 function WeddingIdea() {
   return (
-    <section className="wedding-idea">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="titlebar">
-              <h2>{content.heading4}</h2>
-              <span className="b-line" />
-            </div>
-          </div>
-        </div>
-        <div className="row wpp-media-text-row">
-          <div className="col-md-4 col-sm-12 wpp-split-media">
-            <div id="carousel-3" className="carousel slide" data-ride="carousel">
-              <div className="carousel-inner">
-                {weddingPageContent.ideaSlides.map((src, index) => (
-                  <div className={`item ${index === 0 ? "active" : ""}`} key={src}>
-                    <img src={src} alt="banner" style={{ width: "100%" }} {...(index === 0 ? {} : { loading: "lazy" as const, decoding: "async" as const })} width="640" height="480" />
-                  </div>
-                ))}
-              </div>
-              <a className="left carousel-control" href="#carousel-3" data-slide="prev">
-                <i className="fa fa-chevron-left" aria-hidden="true" />
-                <span className="sr-only">Previous</span>
-              </a>
-              <a className="right carousel-control" href="#carousel-3" data-slide="next">
-                <i className="fa fa-chevron-right" aria-hidden="true" />
-                <span className="sr-only">Next</span>
-              </a>
-            </div>
-          </div>
-          <div className="col-md-8 col-sm-12 wpp-split-text images-page-content-sec">
-            <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc3 }} />
+    <section className="we-section">
+      <div className="we-inner">
+        <WeddingExperienceSlider slides={weddingPageContent.ideaSlides} alt="Wedding photography by Wedding Photo Planet" />
+        <div className="we-copy">
+          <p className="we-eyebrow">Our Experience</p>
+          <h2 className="we-title">{content.heading4}</h2>
+          <span className="we-line" aria-hidden="true" />
+          <div className="we-text">
+            {content.desc3.split(/\n{2,}/).map((paragraph) => (
+              <p key={paragraph.slice(0, 32)} dangerouslySetInnerHTML={{ __html: paragraph }} />
+            ))}
           </div>
         </div>
       </div>
@@ -95,14 +78,14 @@ export default function WeddingPage() {
   return (
     <PublicLayout activePath="/wedding">
       <CarouselBanner slides={weddingPageContent.heroSlides} alt="Wedding photography banner" className="wpp-page-hero" />
-      <ProductGrid products={weddingPageContent.products} />
-      <TitleTextSection heading={content.heading1} html={content.desc1} />
-      <FullBanner src={content.banner1} alt="Celebrity Photography" />
-      <TitleTextSection heading={content.heading2} html={content.desc2} />
+      <WeddingClientsSlideshow products={weddingPageContent.products} />
+      <TitleTextSection heading={content.heading1} html={content.desc1} className="images-page-content-sec wpp-before-fixed" />
+      <FullBanner src={content.banner1} alt="Celebrity Photography" className="wpp-banner-fixed" />
+      <TitleTextSection heading={content.heading2} html={content.desc2} className="images-page-content-sec wpp-after-fixed" />
       <TwoImageSection />
       <WeddingIdea />
       <FooterLastImages />
-      <FullBanner src={content.banner5} alt="Celebrity Photography" strip />
+      <FullBanner src={content.banner5} alt="Celebrity Photography" />
     </PublicLayout>
   );
 }

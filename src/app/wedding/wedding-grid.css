@@ -1,0 +1,294 @@
+/* Wedding clients: sliding strip of 3 panels, hovered panel widens. */
+
+.wg-section {
+  background: #fff;
+  padding: 64px 24px 56px;
+}
+
+.wg-section *,
+.wg-section *::before,
+.wg-section *::after {
+  box-sizing: border-box;
+}
+
+/* Header */
+.wg-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.wg-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 10px;
+}
+
+.wg-title {
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.wg-line {
+  display: block;
+  width: 52px;
+  height: 3px;
+  background: #c9a96e;
+  border-radius: 2px;
+  margin: 0 auto 14px;
+}
+
+.wg-subtitle {
+  font-size: 14px;
+  color: #8a8a8a;
+  margin: 0;
+}
+
+/* Frame */
+.wg-frame {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.wg-viewport {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.wg-track {
+  display: flex;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Panel */
+.wg-panel {
+  flex: 0 0 33.3333%;
+  min-width: 0;
+  height: clamp(360px, 36vw, 560px);
+  padding: 0 7px;
+  display: block;
+  text-decoration: none;
+  transition: flex-basis 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wg-panel__inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ece8e2;
+}
+
+.wg-panel__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+}
+
+.wg-panel__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 10, 22, 0.82) 0%, rgba(12, 10, 22, 0.15) 45%, transparent 65%);
+  transition: opacity 0.4s ease;
+}
+
+.wg-panel__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(46px);
+}
+
+.wg-panel__count {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e3c58c;
+}
+
+.wg-panel__name {
+  font-size: clamp(17px, 1.5vw, 23px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wg-panel__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: #c9a96e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.wg-panel__cta svg {
+  transition: transform 0.3s ease;
+}
+
+/* Hover and keyboard focus */
+.wg-panel:hover .wg-panel__img,
+.wg-panel:focus-visible .wg-panel__img {
+  transform: scale(1.07);
+}
+
+.wg-panel:hover .wg-panel__text,
+.wg-panel:focus-visible .wg-panel__text {
+  transform: translateY(0);
+}
+
+.wg-panel:hover .wg-panel__cta,
+.wg-panel:focus-visible .wg-panel__cta {
+  opacity: 1;
+}
+
+.wg-panel:hover .wg-panel__cta svg {
+  transform: translateX(4px);
+}
+
+.wg-panel:focus-visible {
+  outline: none;
+}
+
+.wg-panel:focus-visible .wg-panel__inner {
+  box-shadow: inset 0 0 0 3px #c9a96e;
+}
+
+/* Dim the two panels that are not hovered */
+.wg-track:has(.wg-panel.is-active) .wg-panel:not(.is-active) .wg-panel__img {
+  filter: brightness(0.72) saturate(0.85);
+}
+
+/* Arrows */
+.wg-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+  transform: translateY(-50%);
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.wg-arrow--prev { left: -12px; }
+.wg-arrow--next { right: -12px; }
+
+.wg-arrow:hover {
+  background: #c9a96e;
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.wg-arrow:focus-visible {
+  outline: 2px solid #c9a96e;
+  outline-offset: 3px;
+}
+
+/* Footer: position counter and rail */
+.wg-footer {
+  max-width: 420px;
+  margin: 26px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wg-footer__count {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a2e;
+  white-space: nowrap;
+}
+
+.wg-footer__count i {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b0b0b0;
+}
+
+.wg-footer__rail {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: #ece6dc;
+  overflow: hidden;
+}
+
+.wg-footer__fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: #c9a96e;
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Touch devices have no hover, so keep the text and button visible. */
+@media (hover: none) {
+  .wg-panel__text { transform: translateY(0); }
+  .wg-panel__cta { opacity: 1; }
+}
+
+@media (max-width: 1000px) {
+  .wg-section { padding: 48px 16px 44px; }
+  .wg-panel { height: clamp(320px, 56vw, 460px); }
+  .wg-arrow { width: 44px; height: 44px; }
+  .wg-arrow--prev { left: 6px; }
+  .wg-arrow--next { right: 6px; }
+}
+
+@media (max-width: 640px) {
+  .wg-panel { height: 380px; padding: 0 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wg-track,
+  .wg-panel,
+  .wg-panel__img,
+  .wg-panel__text,
+  .wg-footer__fill {
+    transition: none;
+  }
+}

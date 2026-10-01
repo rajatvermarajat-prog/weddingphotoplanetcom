@@ -1,0 +1,342 @@
+/* Tighter gap between the text blocks around the pinned banner. */
+main#main-content section.wpp-before-fixed {
+  padding-bottom: 26px;
+  margin-bottom: 0;
+}
+
+main#main-content section.wpp-after-fixed {
+  padding-top: 26px;
+  margin-top: 0;
+}
+
+/* Pinned banner: the photo is position:fixed at its natural size and never moves.
+   clip-path makes the section a window onto it, so only the page scrolls. */
+main#main-content > section.wpp-banner-fixed {
+  position: relative;
+  aspect-ratio: 5040 / 1080; /* banner file dimensions, keeps the section the photo's height */
+  clip-path: inset(0);
+  background: #fff;
+}
+
+main#main-content > section.wpp-banner-fixed > img {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+/* Expertise: editorial split, copy on the left, two overlapping photos on the right. */
+.wx-section {
+  background: #faf7f2;
+  padding: 88px 24px;
+  overflow: hidden;
+}
+
+.wx-section *,
+.wx-section *::before,
+.wx-section *::after {
+  box-sizing: border-box;
+}
+
+.wx-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.wx-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 12px;
+}
+
+.wx-title {
+  font-size: clamp(26px, 2.8vw, 40px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+  margin: 0 0 18px;
+  text-transform: capitalize;
+}
+
+.wx-line {
+  display: block;
+  width: 52px;
+  height: 3px;
+  border-radius: 2px;
+  background: #c9a96e;
+  margin: 0 0 24px;
+}
+
+.wx-text {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #5c5a58;
+  text-align: left;
+  letter-spacing: 0.01em;
+}
+
+/* Photo composition */
+.wx-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+.wx-frame {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 70%;
+  height: 72%;
+  border: 1.5px solid #c9a96e;
+  border-radius: 6px;
+}
+
+.wx-photo {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #e9e3d9;
+  box-shadow: 0 24px 60px rgba(26, 26, 46, 0.18);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease;
+}
+
+.wx-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wx-photo--back {
+  top: 4%;
+  left: 0;
+  width: 72%;
+  height: 72%;
+}
+
+.wx-photo--front {
+  right: 0;
+  bottom: 0;
+  width: 64%;
+  height: 62%;
+  border: 8px solid #fff;
+  z-index: 1;
+}
+
+.wx-photo:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 34px 76px rgba(26, 26, 46, 0.26);
+  z-index: 2;
+}
+
+.wx-photo:hover img {
+  transform: scale(1.06);
+}
+
+/* Reveal on scroll, only where scroll-driven animations exist. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes wx-rise {
+      from { opacity: 0; translate: 0 60px; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+
+    .wx-copy,
+    .wx-photo,
+    .wx-frame {
+      animation: wx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    .wx-photo--front {
+      animation-range: entry 15% entry 75%;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .wx-section { padding: 56px 20px; }
+  .wx-inner { grid-template-columns: 1fr; gap: 40px; }
+  .wx-copy { text-align: center; }
+  .wx-line { margin-left: auto; margin-right: auto; }
+  .wx-text { text-align: left; }
+}
+
+/* Experience: mirrors the expertise block, photo slider on the left, copy on the right. */
+.we-section {
+  background: #fff;
+  padding: 88px 24px;
+  overflow: hidden;
+}
+
+.we-section *,
+.we-section *::before,
+.we-section *::after {
+  box-sizing: border-box;
+}
+
+.we-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: 72px;
+  align-items: center;
+}
+
+.we-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 12px;
+}
+
+.we-title {
+  font-size: clamp(26px, 2.8vw, 40px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+  margin: 0 0 18px;
+  text-transform: capitalize;
+}
+
+.we-line {
+  display: block;
+  width: 52px;
+  height: 3px;
+  border-radius: 2px;
+  background: #c9a96e;
+  margin: 0 0 24px;
+}
+
+.we-text p {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #5c5a58;
+  text-align: left;
+  letter-spacing: 0.01em;
+  margin: 0 0 18px;
+}
+
+.we-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Slider */
+.we-slider {
+  position: relative;
+}
+
+.we-slider__stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #e9e3d9;
+  box-shadow: 0 24px 60px rgba(26, 26, 46, 0.18);
+}
+
+.we-slider__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 0.9s ease, transform 4.5s ease-out;
+}
+
+.we-slider__img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.we-slider__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px 18px;
+  background: linear-gradient(to top, rgba(12, 10, 22, 0.7), transparent);
+}
+
+.we-slider__count {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.we-slider__count i {
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.we-slider__nav {
+  display: flex;
+  gap: 10px;
+}
+
+.we-slider__nav button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.we-slider__nav button:hover {
+  background: #c9a96e;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.we-slider__nav button:focus-visible {
+  outline: 2px solid #c9a96e;
+  outline-offset: 3px;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .we-slider,
+    .we-copy {
+      animation: wx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-slider__img { transition: opacity 0.3s ease; transform: none; }
+}
+
+@media (max-width: 900px) {
+  .we-section { padding: 56px 20px; }
+  .we-inner { grid-template-columns: 1fr; gap: 40px; }
+  .we-copy { text-align: center; }
+  .we-line { margin-left: auto; margin-right: auto; }
+}
