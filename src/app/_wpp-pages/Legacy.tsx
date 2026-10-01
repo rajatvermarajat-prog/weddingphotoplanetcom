@@ -80,8 +80,13 @@ export function TextSection({ heading, body, html, className = "images-page-cont
 
 export const TitleTextSection = TextSection;
 
-export function FullBanner({ src, alt = "Wedding Photo Planet", strip = false }: { src: string; alt?: string; strip?: boolean }) {
-  return <section className={`main-banner wpp-banner-image${strip ? " wpp-banner-strip" : ""}`}><img src={src} alt={alt} loading="lazy" decoding="async" style={{ width: "100%", height: "auto", display: "block" }} /></section>;
+// `trim` hides blank bands baked into the image file: pixels to cut from the top/bottom, plus the file's pixel width.
+export function FullBanner({ src, alt = "Wedding Photo Planet", strip = false, trim }: { src: string; alt?: string; strip?: boolean; trim?: { top: number; bottom: number; width: number } }) {
+  // Strip banners also get the photo as a CSS background so desktop can pin it (background-attachment: fixed).
+  const background = strip ? { backgroundImage: `url("${encodeURI(src)}")` } : undefined;
+  // Vertical margins in % resolve against the container width, so px / file width scales with the rendered image.
+  const trimStyle = trim ? { marginTop: `${(-trim.top / trim.width) * 100}%`, marginBottom: `${(-trim.bottom / trim.width) * 100}%` } : undefined;
+  return <section className={`main-banner wpp-banner-image${strip ? " wpp-banner-strip" : ""}`} style={background}><img src={src} alt={alt} loading="lazy" decoding="async" style={{ width: "100%", height: "auto", display: "block", ...trimStyle }} /></section>;
 }
 
 export function GalleryGrid({ id, images }: { id: string; images: { src: string; alt: string }[] }) {
