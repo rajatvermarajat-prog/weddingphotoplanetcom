@@ -38,7 +38,7 @@ function IntroGallery() {
         <span className="b-line" />
       </div>
       <div className="col-md-12 images-page-content-sec">
-        <p dangerouslySetInnerHTML={{ __html: imagePageContent.introHtml }} />
+        <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: imagePageContent.introHtml }} />
       </div>
       <div className="p-25 s12">
         <GalleryLinks id="latest-work" images={[...imagePageContent.gallery]} />
@@ -61,7 +61,7 @@ function SecondGallery() {
 export default function ImagesPage() {
   return (
     <PublicLayout activePath="/images">
-      <CarouselBanner slides={[...imagePageContent.slides]} alt="Gallery page banner" />
+      <CarouselBanner slides={[...imagePageContent.slides]} alt="Gallery page banner" className="wpp-page-hero" />
       <IntroGallery />
       <TitleTextSection heading={imagePageContent.beforeHeading} html={imagePageContent.beforeHtml} className="images-page-content-sec wpp-before-banner" />
       <FullBanner src={imagePageContent.banner} alt="Celebrity Photography" strip />

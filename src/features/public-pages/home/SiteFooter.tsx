@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import type { HomepageData } from "./types";
 
@@ -18,32 +16,6 @@ const footerLinks = [
 type Style = React.CSSProperties & Record<`--${string}`, string | number>;
 
 export function SiteFooter({ footer }: { footer: HomepageData["footer"] }) {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) {
-      return;
-    }
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      setVisible(true);
-      return;
-    }
-    node.dataset.anim = "on";
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   const socials = [
     ["facebook", "Facebook", "fa-facebook", footer.social.facebook],
     ["instagram", "Instagram", "fa-instagram", footer.social.instagram],
@@ -57,7 +29,7 @@ export function SiteFooter({ footer }: { footer: HomepageData["footer"] }) {
   const emails = [footer.email1, footer.email2].map((email) => email.replace(/^[\s:-]+/, "").trim()).filter(Boolean);
 
   return (
-    <footer ref={ref} className={`wpp-foot${visible ? " is-visible" : ""}`}>
+    <footer className="wpp-foot is-visible">
       <div className="wpp-foot__cta wpp-foot__reveal" style={{ "--d": 0 } as Style}>
         <div>
           <h2 className="wpp-foot__headline">Planning your wedding?</h2>

@@ -18,7 +18,7 @@ function TwoImageSection() {
             <h2>{content.heading3}</h2>
             <span className="b-line" />
           </div>
-          <p dangerouslySetInnerHTML={{ __html: content.desc4 }} />
+          <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc4 }} />
           <br />
         </div>
         <div className="col-md-6 wedding-col-2">
@@ -65,7 +65,7 @@ function WeddingIdea() {
             </div>
           </div>
           <div className="col-md-8 col-sm-12 wpp-split-text images-page-content-sec">
-            <p dangerouslySetInnerHTML={{ __html: content.desc3 }} />
+            <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc3 }} />
           </div>
         </div>
       </div>
@@ -83,7 +83,7 @@ function FooterLastImages() {
             <span className="b-line" />
           </div>
           <div className="images-page-content-sec">
-            <p dangerouslySetInnerHTML={{ __html: content.desc5 }} />
+            <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc5 }} />
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ function FooterLastImages() {
 export default function WeddingPage() {
   return (
     <PublicLayout activePath="/wedding">
-      <CarouselBanner slides={weddingPageContent.heroSlides} alt="Wedding photography banner" />
+      <CarouselBanner slides={weddingPageContent.heroSlides} alt="Wedding photography banner" className="wpp-page-hero" />
       <ProductGrid products={weddingPageContent.products} />
       <TitleTextSection heading={content.heading1} html={content.desc1} />
       <FullBanner src={content.banner1} alt="Celebrity Photography" />

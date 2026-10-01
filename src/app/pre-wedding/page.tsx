@@ -130,7 +130,7 @@ function FooterLastImages() {
 export default function PreWeddingPage() {
   return (
     <PublicLayout activePath="/pre-wedding">
-      <CarouselBanner slides={preWeddingPageContent.heroSlides} alt="Pre-wedding photography banner" />
+      <CarouselBanner slides={preWeddingPageContent.heroSlides} alt="Pre-wedding photography banner" className="wpp-page-hero" />
       <ProductGrid products={preWeddingPageContent.products} />
       <TitleTextSection heading={content.heading1} html={content.disc1} />
       <FullBanner src={content.banner1} alt="Pre-wedding photography" />

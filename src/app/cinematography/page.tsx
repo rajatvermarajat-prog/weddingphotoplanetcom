@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FullBanner, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
 import { cinematographyPageContent } from "@/app/_wpp-pages/cinematography-data";
+import { YouTubeLite } from "./YouTubeLite";
 
 const { content } = cinematographyPageContent;
 
@@ -8,22 +9,6 @@ export const metadata: Metadata = {
   title: cinematographyPageContent.metadata.title,
   description: cinematographyPageContent.metadata.description,
 };
-
-function YouTubeEmbed({ id, title, className, height = 220 }: { id: string; title: string; className?: string; height?: number }) {
-  return (
-    <iframe
-      className={className}
-      width="100%"
-      height={height}
-      src={`https://www.youtube.com/embed/${id}?rel=0`}
-      title={title}
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-      loading="lazy"
-    />
-  );
-}
 
 function HeroVideoCarousel() {
   return (
@@ -34,7 +19,7 @@ function HeroVideoCarousel() {
             <div className="carousel-inner">
               {cinematographyPageContent.heroVideos.map((id, index) => (
                 <div className={`item ${index === 0 ? "active" : ""}`} key={id}>
-                  <YouTubeEmbed id={id} title="YouTube video player" height={506} />
+                  <YouTubeLite id={id} title="YouTube video player" height={506} />
                 </div>
               ))}
             </div>
@@ -62,7 +47,7 @@ function VideoGrid() {
             {cinematographyPageContent.videos.map((video) => (
               <div className="col-md-3 wedding-col" key={video.id}>
                 <div className="wedding-link">
-                  <YouTubeEmbed id={video.id} title={video.title} className="wpp-yt--grid" />
+                  <YouTubeLite id={video.id} title={video.title} className="wpp-yt--grid" />
                 </div>
                 <div className="album-caption">
                   <h2 className="album-title s12">{video.title}</h2>
@@ -94,7 +79,7 @@ function OwlVideoSlider() {
         >
           {cinematographyPageContent.owlVideos.map((id) => (
             <div className="item thumbnail" key={id}>
-              <YouTubeEmbed id={id} title="YouTube video player" className="wpp-yt-owl-embed" />
+              <YouTubeLite id={id} title="YouTube video player" className="wpp-yt-owl-embed" />
             </div>
           ))}
         </div>

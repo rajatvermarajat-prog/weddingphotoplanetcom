@@ -1,10 +1,30 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SiteFooter } from "@/features/public-pages/home/SiteFooter";
+import type { HomepageData } from "@/features/public-pages/home/types";
 import { footer, navItems, type ProductCard } from "./data";
 
 function activeHref(href: string) {
   return href.endsWith("/") && href !== "/" ? href.slice(0, -1) : href;
 }
+
+const sharedFooter: HomepageData["footer"] = {
+  social: {
+    facebook: "#",
+    instagram: "#",
+    youtube: "#",
+    twitter: "#",
+    linkedin: "#",
+    tumblr: "#",
+  },
+  heading1: "Contact Details",
+  heading2: "Wedding Photo Planet",
+  address: footer.address,
+  mobile: footer.mobile,
+  email1: footer.email1,
+  email2: footer.email2,
+  copyright: "© 2010-2026 Wedding Photo Planet. All Rights Reserved.",
+};
 
 export function LegacyPage({ children, activePath }: { children: ReactNode; activePath: string }) {
   return (
@@ -28,33 +48,16 @@ export function LegacyPage({ children, activePath }: { children: ReactNode; acti
         </div>
       </div>
       <main id="main-content" role="main">{children}</main>
-      <section className="footer-main wpp-footer">
-        <div className="container-fluid wpp-footer__grid">
-          <div className="col-md-7 wpp-footer__col wpp-footer__col--contact">
-            <div className="footer-middle-content wpp-footer__contact-inner">
-              <h4>Contact Details</h4>
-              <p><strong>Wedding Photo Planet</strong><br />{footer.address}</p>
-              <p className="wpp-footer__contact-meta"><strong>Phone No</strong> - {footer.mobile}<br /><strong>E-Mail ID</strong> - {footer.email1}<br /><strong>E-Mail ID</strong> {footer.email2}</p>
-            </div>
-          </div>
-          <div className="col-md-3 footer-right-line wpp-footer__col wpp-footer__col--links">
-            <div className="footer-right-content wpp-footer__links-inner">
-              <h4>Quick Link</h4>
-              <ul className="footer-menu">{navItems.map((item) => <li key={item.href}><Link href={item.href} title={item.title}>{item.label}</Link></li>)}</ul>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="footer-copyright"><div className="container"><div className="copyright-content"><p>© 2010-2026 Wedding Photo Planet. All Rights Reserved.</p></div></div></section>
+      <SiteFooter footer={sharedFooter} />
     </div>
   );
 }
 
 export const PublicLayout = LegacyPage;
 
-export function CarouselBanner({ id = "carousel-1", slides, alt }: { id?: string; slides: string[]; alt: string }) {
+export function CarouselBanner({ id = "carousel-1", slides, alt, className = "" }: { id?: string; slides: string[]; alt: string; className?: string }) {
   return (
-    <section className="main-banner">
+    <section className={`main-banner${className ? ` ${className}` : ""}`}>
       <div className="container-fluid"><div className="row"><div id={id} className="carousel slide" data-ride="carousel"><div className="carousel-inner">
         {slides.map((src, index) => <div className={`item ${index === 0 ? "active" : ""}`} key={src}><img src={src} alt={`${alt} ${index + 1}`} style={{ width: "100%" }} {...(index === 0 ? { fetchPriority: "high" as const } : { loading: "lazy" as const, decoding: "async" as const })} /></div>)}
       </div><a className="left carousel-control" href={`#${id}`} data-slide="prev"><i className="fa fa-chevron-left" aria-hidden="true" /><span className="sr-only">Previous</span></a><a className="right carousel-control" href={`#${id}`} data-slide="next"><i className="fa fa-chevron-right" aria-hidden="true" /><span className="sr-only">Next</span></a></div></div></div>
@@ -68,7 +71,7 @@ export function TextSection({ heading, body, html, className = "images-page-cont
       <div className="container">
         <div className="col-md-12">
           <div className="titlebar"><h2>{heading}</h2><span className="b-line" /></div>
-          {html ? <p dangerouslySetInnerHTML={{ __html: html }} /> : <p>{body}</p>}
+          {html ? <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: html }} /> : <p>{body}</p>}
         </div>
       </div>
     </section>

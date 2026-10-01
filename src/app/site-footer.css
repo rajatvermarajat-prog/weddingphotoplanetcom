@@ -1,5 +1,158 @@
 /* Homepage footer: CTA strip, info columns, animated links. */
 
+.wpp-html-content {
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 25px;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+.wpp-html-content :where(h2, h3, p, ul, ol) {
+  margin-top: 0;
+}
+
+.wpp-youtube-lite {
+  align-items: center;
+  background: #111;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.wpp-youtube-lite img {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0.82;
+  position: absolute;
+  width: 100%;
+}
+
+.wpp-youtube-lite__play {
+  background: rgba(176, 141, 87, 0.94);
+  border-radius: 50%;
+  height: 58px;
+  position: relative;
+  width: 58px;
+  z-index: 1;
+}
+
+.wpp-youtube-lite__play::after {
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid #fff;
+  border-top: 12px solid transparent;
+  content: "";
+  left: 23px;
+  position: absolute;
+  top: 17px;
+}
+
+.wpp-youtube-lite__title {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.76));
+  bottom: 0;
+  font-size: 13px;
+  left: 0;
+  line-height: 1.35;
+  padding: 34px 12px 12px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  z-index: 1;
+}
+
+main#main-content > section.main-banner.wpp-page-hero {
+  background: #050505;
+  overflow: hidden;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1.carousel,
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-inner {
+  background: #050505;
+  height: clamp(520px, calc(100svh - var(--wpp-header-offset, 0px)), 980px);
+  min-height: 0 !important;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-inner > .item {
+  background: #050505;
+  height: 100%;
+  min-height: 0 !important;
+  overflow: hidden;
+  position: relative;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-inner > .item::after {
+  background: rgba(0, 0, 0, 0.26);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-inner > .item > img {
+  display: block;
+  height: 100% !important;
+  inset: 0;
+  margin: 0 auto;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover !important;
+  object-position: center center;
+  position: absolute;
+  width: 100% !important;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control {
+  background: none !important;
+  bottom: 0;
+  opacity: 0.92;
+  top: 0;
+  width: 96px;
+  z-index: 4;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control.left {
+  left: 24px;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control.right {
+  right: 24px;
+}
+
+main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 767px) {
+  main#main-content > section.main-banner.wpp-page-hero #carousel-1.carousel,
+  main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-inner {
+    height: clamp(320px, 68svh, 620px);
+  }
+
+  main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control {
+    width: 48px;
+  }
+
+  main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control.left {
+    left: 8px;
+  }
+
+  main#main-content > section.main-banner.wpp-page-hero #carousel-1 .carousel-control.right {
+    right: 8px;
+  }
+}
+
 .wpp-foot {
   --wpp-gold: #b08d57;
   --wpp-gold-light: #e2c48f;
