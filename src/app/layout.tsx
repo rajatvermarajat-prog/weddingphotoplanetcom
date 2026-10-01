@@ -42,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="stylesheet" href="/assets/css/lightgallery.css" />
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/assets/css/site-layout.css?v=28" media="screen" />
+        <link rel="stylesheet" href="/assets/css/blog.css" media="screen" />
       </head>
       <body suppressHydrationWarning>
         {children}

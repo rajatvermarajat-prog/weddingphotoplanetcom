@@ -9,6 +9,7 @@ import "./services-slider.css";
 import "./gallery-showcase.css";
 import "./testimonials-carousel.css";
 import "./why-choose.css";
+import "./candid-moments.css";
 import "./site-footer.css";
 
 export const dynamic = "force-dynamic";

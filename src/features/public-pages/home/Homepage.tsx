@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AboutIntro } from "./AboutIntro";
+import { CandidMoments } from "./CandidMoments";
 import { GalleryShowcase } from "./GalleryShowcase";
 import { ServicesSlider } from "./ServicesSlider";
 import { SiteFooter } from "./SiteFooter";
@@ -172,53 +173,6 @@ function TextSection({ heading, html, headingLevel = "h2" }: { heading: string; 
   );
 }
 
-function AboutPhotography({ about }: { about: HomepageData["about"] }) {
-  if (!about.heading.trim() && !about.html.trim() && about.slides.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="row row-p p-t-0 about-content">
-      <div className="s12 p-25 p-t-0 about-content">
-        <br />
-        <br />
-        <h2>
-          <b>{about.heading}</b>
-        </h2>
-        <div className="s12 l7 p-10">
-          <ul className="why-list">
-            <li>
-              <HtmlBlock html={about.html.replaceAll("\n", "<br>")} />
-            </li>
-          </ul>
-        </div>
-        {about.slides.length > 0 ? (
-          <div className="s12 l5 p-10">
-            <div id="carousel-2" className="carousel slide" data-ride="carousel">
-              <div className="carousel-inner">
-                {about.slides.map((slide, index) => (
-                  <div className={`item${index === 0 ? " active" : ""}`} key={slide.src}>
-                    <LegacyImage image={slide} sizes="(max-width: 768px) 100vw, 40vw" />
-                  </div>
-                ))}
-              </div>
-              <a className="left carousel-control" href="#carousel-2" data-slide="prev" aria-label="Previous photography slide">
-                <i className="fa fa-chevron-left" aria-hidden="true" />
-                <span className="sr-only">Previous</span>
-              </a>
-              <a className="right carousel-control" href="#carousel-2" data-slide="next" aria-label="Next photography slide">
-                <i className="fa fa-chevron-right" aria-hidden="true" />
-                <span className="sr-only">Next</span>
-              </a>
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-
 // Hand-picked bright, colourful frames from the existing gallery for the About collage.
 const ABOUT_INTRO_IMAGES: HomepageImage[] = [
   { src: "/admin_image/slider/6282115301753530749Wedding.jpg", alt: "Bride and groom varmala ceremony under a bright sky", width: 575, height: 719 },
@@ -248,7 +202,7 @@ export function Homepage({ data }: { data: HomepageData }) {
         <TestimonialsCarousel testimonials={data.testimonials} />
         <WhyChooseCarousel whyChoose={data.whyChoose} images={data.galleryImages} />
         <Banner image={data.secondBanner} />
-        <AboutPhotography about={data.about} />
+        <CandidMoments heading={data.about.heading} html={data.about.html} photos={[...data.about.slides, ...data.galleryImages]} />
         <TextSection heading={data.photography.heading} html={data.photography.html} />
         <Banner image={data.thirdBanner} />
       </main>
