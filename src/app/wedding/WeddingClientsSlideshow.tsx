@@ -14,7 +14,15 @@ function perViewForWidth(width: number): number {
   return 3;
 }
 
-export default function WeddingClientsSlideshow({ products }: { products: ProductCard[] }) {
+export default function WeddingClientsSlideshow({
+  products,
+  title = "Wedding Stories We’ve Captured",
+  label = "Wedding client galleries",
+}: {
+  products: ProductCard[];
+  title?: string;
+  label?: string;
+}) {
   const total = products.length;
   const [perView, setPerView] = useState(3);
   const [current, setCurrent] = useState(0);
@@ -62,10 +70,10 @@ export default function WeddingClientsSlideshow({ products }: { products: Produc
   };
 
   return (
-    <section className="wg-section" aria-label="Wedding client galleries">
+    <section className="wg-section" aria-label={label}>
       <div className="wg-header">
         <p className="wg-eyebrow">Our Clients</p>
-        <h2 className="wg-title">Wedding Stories We&rsquo;ve Captured</h2>
+        <h2 className="wg-title">{title}</h2>
         <span className="wg-line" aria-hidden="true" />
         <p className="wg-subtitle">Hover to preview, click any couple to open their full gallery</p>
       </div>

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { CarouselBanner, FullBanner, ProductGrid, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
+import { CarouselBanner, FullBanner, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
 import { preWeddingPageContent } from "@/app/_wpp-pages/pre-wedding-data";
+import WeddingClientsSlideshow from "../wedding/WeddingClientsSlideshow";
+import WeddingExperienceSlider from "../wedding/WeddingExperienceSlider";
+import "../wedding/wedding-page.css";
+import "./pre-wedding-page.css";
 
 const { content } = preWeddingPageContent;
 
@@ -9,100 +13,68 @@ export const metadata: Metadata = {
   description: preWeddingPageContent.metadata.description,
 };
 
-function SplitCarousel({
-  id,
+// Page copy separates blocks with blank lines: wrap loose text in <p>, keep headings as they are.
+function toBlocks(html: string): string {
+  return html
+    .replace(/<\/?br\s*\/?>/gi, "")
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block) => (/^<h[1-6]/i.test(block) ? block : `<p>${block}</p>`))
+    .join("");
+}
+
+function SliderCopySection({
+  eyebrow,
   heading,
   slides,
   html,
+  alt,
+  flip = false,
 }: {
-  id: string;
+  eyebrow: string;
   heading: string;
   slides: string[];
   html: string;
+  alt: string;
+  flip?: boolean;
 }) {
   return (
-    <section className="wedding-idea">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="titlebar">
-              <h2>{heading}</h2>
-              <span className="b-line" />
-            </div>
-          </div>
-        </div>
-        <div className="row wpp-media-text-row">
-          <div className="col-md-4 col-sm-12 wpp-split-media">
-            <div id={id} className="carousel slide" data-ride="carousel">
-              <div className="carousel-inner">
-                {slides.map((src, index) => (
-                  <div className={`item ${index === 0 ? "active" : ""}`} key={src}>
-                    <img src={src} alt="banner" style={{ width: "100%" }} />
-                  </div>
-                ))}
-              </div>
-              <a className="left carousel-control" href={`#${id}`} data-slide="prev">
-                <i className="fa fa-chevron-left" aria-hidden="true" />
-                <span className="sr-only">Previous</span>
-              </a>
-              <a className="right carousel-control" href={`#${id}`} data-slide="next">
-                <i className="fa fa-chevron-right" aria-hidden="true" />
-                <span className="sr-only">Next</span>
-              </a>
-            </div>
-          </div>
-          <div className="col-md-8 col-sm-12 wpp-split-text images-page-content-sec">
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-          </div>
+    <section className={`we-section pw-split${flip ? " pw-split--flip" : ""}`}>
+      <div className="we-inner">
+        <WeddingExperienceSlider slides={slides} alt={alt} />
+        <div className="we-copy">
+          <p className="we-eyebrow">{eyebrow}</p>
+          <h2 className="we-title">{heading}</h2>
+          <span className="we-line" aria-hidden="true" />
+          <div className="we-text pw-rich" dangerouslySetInnerHTML={{ __html: toBlocks(html) }} />
         </div>
       </div>
     </section>
   );
 }
 
-function ThreeImageBlock() {
+const trioPhotos = [
+  { src: content.banner5, alt: "Pre Wedding" },
+  { src: content.banner6, alt: "Best Pre Wedding" },
+  { src: content.banner7, alt: "Best Pre Wedding Photography in India" },
+];
+
+function LocationsTrio() {
   return (
-    <section className="images-page-content-sec">
-      <div className="container">
-        <div className="col-md-12">
-          <div dangerouslySetInnerHTML={{ __html: content.desc5 }} />
-          <br />
+    <section className="pw-trio">
+      <div className="pw-trio__inner">
+        <div className="pw-trio__copy">
+          <p className="we-eyebrow">Free Locations</p>
+          <span className="we-line" aria-hidden="true" />
+          <div className="we-text pw-rich" dangerouslySetInnerHTML={{ __html: toBlocks(content.desc5) }} />
         </div>
-        <div className="col-md-4 wedding-col-2">
-          <img
-            className="img-responsive"
-            src={content.banner5}
-            style={{ width: "100%", height: "auto" }}
-            alt="Pre Wedding"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="500"
-          />
-        </div>
-        <div className="col-md-4 wedding-col-2">
-          <img
-            className="img-responsive"
-            src={content.banner6}
-            style={{ width: "100%", height: "auto" }}
-            alt="Best Pre Wedding"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="500"
-          />
-        </div>
-        <div className="col-md-4 wedding-col-2">
-          <img
-            className="img-responsive"
-            src={content.banner7}
-            style={{ width: "100%", height: "auto" }}
-            alt="Best Pre Wedding Photography in India"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="500"
-          />
+        <div className="pw-trio__photos">
+          {trioPhotos.map((photo) => (
+            <figure className="pw-trio__photo" key={photo.src}>
+              <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" width="640" height="960" />
+            </figure>
+          ))}
         </div>
       </div>
     </section>
@@ -119,7 +91,7 @@ function FooterLastImages() {
             <span className="b-line" />
           </div>
           <div className="images-page-content-sec">
-            <div dangerouslySetInnerHTML={{ __html: content.desc6 }} />
+            <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: toBlocks(content.desc6) }} />
           </div>
         </div>
       </div>
@@ -131,17 +103,33 @@ export default function PreWeddingPage() {
   return (
     <PublicLayout activePath="/pre-wedding">
       <CarouselBanner slides={preWeddingPageContent.heroSlides} alt="Pre-wedding photography banner" className="wpp-page-hero" />
-      <ProductGrid products={preWeddingPageContent.products} />
-      <TitleTextSection heading={content.heading1} html={content.disc1} />
-      <FullBanner src={content.banner1} alt="Pre-wedding photography" />
-      <TitleTextSection heading={content.heading2} html={content.desc2} />
-      <SplitCarousel id="carousel-3" heading={content.heading3} slides={preWeddingPageContent.ideaSlides} html={content.desc3} />
+      <WeddingClientsSlideshow
+        products={preWeddingPageContent.products}
+        title="Pre-Wedding Stories We&rsquo;ve Captured"
+        label="Pre-wedding client galleries"
+      />
+      <TitleTextSection heading={content.heading1} html={toBlocks(content.disc1)} className="images-page-content-sec wpp-before-fixed" />
+      <FullBanner src={content.banner1} alt="Pre-wedding photography" className="wpp-banner-fixed" />
+      <TitleTextSection heading={content.heading2} html={content.desc2} className="images-page-content-sec wpp-after-fixed" />
+      <SliderCopySection
+        eyebrow="Our Experience"
+        heading={content.heading3}
+        slides={preWeddingPageContent.ideaSlides}
+        html={content.desc3}
+        alt="Pre-wedding photography by Wedding Photo Planet"
+      />
       <FullBanner src={content.banner3} alt="Pre-wedding photography" />
-      <SplitCarousel id="carousel-4" heading={content.heading4} slides={preWeddingPageContent.locationSlides} html={content.desc4} />
-      <ThreeImageBlock />
-      <div className="gap" />
+      <SliderCopySection
+        eyebrow="Shoot Locations"
+        heading={content.heading4}
+        slides={preWeddingPageContent.locationSlides}
+        html={content.desc4}
+        alt="Pre-wedding shoot location near Delhi NCR"
+        flip
+      />
+      <LocationsTrio />
       <FooterLastImages />
-      <FullBanner src={content.banner8} alt="Pre-wedding photography" strip />
+      <FullBanner src={content.banner8} alt="Pre-wedding photography" />
     </PublicLayout>
   );
 }
