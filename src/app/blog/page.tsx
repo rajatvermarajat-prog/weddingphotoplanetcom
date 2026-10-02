@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicLayout } from "@/app/_wpp-pages/Legacy";
 import { blogPageContent } from "@/app/_wpp-pages/blog-data";
+import "./blog-list.css";
 
 export const metadata: Metadata = {
   title: blogPageContent.metadata.title,
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 function BlogHero() {
   return (
-    <section className="main-banner wpp-blog-hero wpp-blog-hero--manual" aria-label="Blog banner">
+    <section className="main-banner wpp-blog-hero wpp-blog-hero--manual bl-hero" aria-label="Blog banner">
       <div className="container-fluid">
         <div className="row">
           <div id="carousel-1" className="carousel slide" data-ride="carousel">
@@ -55,54 +56,37 @@ function BlogHero() {
   );
 }
 
-function FeaturedPosts() {
+function PostList() {
   return (
-    <div className="wpp-blog-featured-list">
-      {blogPageContent.posts.slice(0, 2).map((post, index) => (
-        <article className={`wpp-blog-featured${index % 2 === 1 ? " wpp-blog-featured--flip" : ""}`} key={post.slug}>
-          <h2 className="wpp-blog-featured__title">
-            <Link href={post.href}>{post.title}</Link>
-          </h2>
-          <div className="wpp-blog-featured__row">
-            <Link className="wpp-blog-featured__media" href={post.href}>
-              <img src={post.image} alt={post.title} />
-            </Link>
-            <div className="wpp-blog-featured__body">
-              <p className="wpp-blog-featured__excerpt">{post.excerptLong}</p>
-              <Link className="wpp-blog-featured__btn" href={post.href}>Read More</Link>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-
-function BlogGrid() {
-  return (
-    <div className="wpp-blog-grid row g-4">
-      {blogPageContent.posts.slice(2, 12).map((post) => (
-        <div className="col-6 col-lg-3" key={post.slug}>
-          <article className="wpp-blog-grid-card">
-            <Link className="wpp-blog-grid-card__media" href={post.href}>
-              <img src={post.image} alt={post.title} />
-            </Link>
-            <div className="wpp-blog-grid-card__body">
-              <div className="wpp-blog-grid-card__meta">
-                <span className="ubs-badge">{post.category}</span>
-                <span className="ubs-badge ubs-badge--muted">{post.date}</span>
-                <span className="ubs-badge ubs-badge--muted">{post.readText}</span>
+    <section className="bl-section" aria-labelledby="bl-title">
+      <div className="bl-inner">
+        <header className="bl-header">
+          <p className="bl-eyebrow">Our Journal</p>
+          <h2 id="bl-title" className="bl-heading">Latest Stories &amp; Guides</h2>
+          <span className="bl-line" aria-hidden="true" />
+        </header>
+        <ol className="bl-list">
+          {blogPageContent.posts.map((post, index) => (
+            <li className="bl-post" key={post.slug}>
+              <Link className="bl-post__media" href={post.href} tabIndex={-1} aria-hidden="true">
+                <img src={post.image} alt="" loading={index < 2 ? "eager" : "lazy"} decoding="async" width="816" height="460" />
+              </Link>
+              <div className="bl-post__body">
+                <p className="bl-post__category">{post.category}</p>
+                <h3 className="bl-post__title">
+                  <Link href={post.href}>{post.title}</Link>
+                </h3>
+                <p className="bl-post__excerpt">{post.excerptLong}</p>
+                <div className="bl-post__meta">
+                  <span>{post.readText}</span>
+                  <time>{post.date}</time>
+                </div>
               </div>
-              <h3 className="wpp-blog-grid-card__title">
-                <Link href={post.href}>{post.title}</Link>
-              </h3>
-              <p className="wpp-blog-grid-card__excerpt">{post.excerpt}</p>
-              <Link className="wpp-blog-grid-card__btn" href={post.href}>Read More</Link>
-            </div>
-          </article>
-        </div>
-      ))}
-    </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
   );
 }
 
@@ -110,16 +94,7 @@ export default function BlogPage() {
   return (
     <PublicLayout activePath="/blog">
       <BlogHero />
-      <div className="wpp-blog-archive-page">
-        <div className="ubs ubs-blog-list-page">
-          <section className="ubs-blog-list">
-            <div className="container-fluid wpp-blog-archive__container">
-              <FeaturedPosts />
-              <BlogGrid />
-            </div>
-          </section>
-        </div>
-      </div>
+      <PostList />
     </PublicLayout>
   );
 }

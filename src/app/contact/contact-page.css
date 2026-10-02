@@ -1,5 +1,4 @@
-/* Contact page. Same palette as the wedding pages: gold #c9a96e, ink #1a1a2e, warm white #faf7f2.
-   The photo slider in the enquiry section uses the .we-slider styles from wedding-page.css. */
+/* Contact page. Same palette as the wedding pages: gold #c9a96e, ink #1a1a2e, warm white #faf7f2. */
 
 .ct-hero *,
 .ct-cards *,
@@ -377,6 +376,12 @@ main#main-content > section.main-banner.ct-hero {
   align-items: start;
 }
 
+/* The copy is shorter than the form, so it stays in view while the form scrolls. */
+.ct-enquiry__side {
+  position: sticky;
+  top: 110px; /* clears the fixed header */
+}
+
 .ct-enquiry__text {
   font-size: 16px;
   line-height: 1.9;
@@ -389,7 +394,7 @@ main#main-content > section.main-banner.ct-hero {
   display: flex;
   flex-direction: column;
   list-style: none;
-  margin: 0 0 36px;
+  margin: 0;
   padding: 0;
 }
 
@@ -450,17 +455,7 @@ main#main-content > section.main-banner.ct-hero {
   color: #1a1a2e;
 }
 
-.ct-enquiry__photos .we-slider__stage {
-  aspect-ratio: 5 / 4;
-}
-
-.ct-enquiry__photos .we-slider__img {
-  object-position: center 30%;
-}
-
 .ct-enquiry__card {
-  position: sticky;
-  top: 100px; /* clears the fixed header */
   padding: 40px 40px 34px;
   border-radius: 18px;
   background: #fff;
@@ -869,7 +864,7 @@ main#main-content > section.main-banner.ct-hero {
 @media (max-width: 1000px) {
   .ct-cards__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ct-enquiry__inner { grid-template-columns: 1fr; gap: 44px; }
-  .ct-enquiry__card { position: static; }
+  .ct-enquiry__side { position: static; }
   .ct-stories__inner { grid-template-columns: 1fr; gap: 40px; }
 }
 

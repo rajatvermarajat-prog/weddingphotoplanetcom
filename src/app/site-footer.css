@@ -1,5 +1,12 @@
 /* Homepage footer: CTA strip, info columns, animated links. */
 
+/* site-layout.css sets overflow-x: hidden on these, which turns them into scroll containers and
+   stops position: sticky from working anywhere inside. clip hides the overflow without that. */
+div.wrapper,
+div.wrapper > main#main-content {
+  overflow-x: clip;
+}
+
 .wpp-html-content {
   color: #333;
   font-size: 15px;

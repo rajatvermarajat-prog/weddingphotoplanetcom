@@ -2,11 +2,9 @@ import type { Metadata } from "next";
 import { FullBanner, PublicLayout } from "@/app/_wpp-pages/Legacy";
 import { contactPageContent } from "@/app/_wpp-pages/contact-data";
 import { footer } from "@/app/_wpp-pages/data";
-import WeddingExperienceSlider from "../wedding/WeddingExperienceSlider";
 import ContactHero from "./ContactHero";
 import EnquiryForm from "./EnquiryForm";
 import StoriesShowcase from "./StoriesShowcase";
-import "../wedding/wedding-page.css";
 import "./contact-page.css";
 
 const { content } = contactPageContent;
@@ -109,9 +107,6 @@ function EnquirySection() {
               </li>
             ))}
           </ol>
-          <div className="ct-enquiry__photos">
-            <WeddingExperienceSlider slides={[...contactPageContent.gallerySlides]} alt="Wedding photography by Wedding Photo Planet" />
-          </div>
         </div>
         <div className="ct-enquiry__card">
           <EnquiryForm whatsappNumber={whatsappNumber} email={emails[0]} />
