@@ -1,16 +1,20 @@
-/* Homepage "Glimpses of our photography events": dark backdrop with a pinned polaroid wall.
-   Cards sit at slight angles; hover/focus straightens, lifts and reveals the description. */
+/* Homepage "Glimpses of our photography events": light backdrop with an expanding photo strip.
+   One panel is open with its story; the others are slim spines that open on hover, focus or tap. */
 
 .wpp-candid {
-  --c-gold: #c9a46a;
+  --c-gold: #b08d57;
+  --c-gold-light: #e3c58c;
+  --c-ink: #151412;
   --c-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  background:
-    radial-gradient(50% 60% at 15% 20%, rgba(201, 164, 106, 0.12) 0%, transparent 70%),
-    radial-gradient(45% 55% at 90% 85%, rgba(201, 164, 106, 0.1) 0%, transparent 70%),
-    #141311;
-  color: #fff;
+  background: #faf7f2;
   overflow: hidden;
-  padding: clamp(56px, 7vw, 100px) 0 clamp(64px, 8vw, 120px);
+  padding: clamp(56px, 7vw, 96px) 0 clamp(60px, 7.5vw, 104px);
+}
+
+.wpp-candid *,
+.wpp-candid *::before,
+.wpp-candid *::after {
+  box-sizing: border-box;
 }
 
 .wpp-candid__inner {
@@ -19,12 +23,23 @@
   padding: 0 clamp(16px, 4vw, 48px);
 }
 
+.wpp-candid .wpp-candid__eyebrow {
+  color: var(--c-gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  margin: 0 0 14px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .wpp-candid__title {
-  color: #fff;
+  color: var(--c-ink);
   font-size: clamp(22px, 2.6vw, 34px);
   font-weight: 700;
   line-height: 1.3;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 900px;
   text-align: center;
 }
 
@@ -32,167 +47,227 @@
   background: var(--c-gold);
   display: block;
   height: 2px;
-  margin: 18px auto clamp(40px, 5vw, 72px);
+  margin: 18px auto clamp(36px, 4.5vw, 56px);
   width: 64px;
 }
 
-.wpp-candid__grid {
-  display: grid;
-  float: none; /* legacy style.css floats every ul/li, which collapses the grid */
-  gap: clamp(32px, 4vw, 56px) clamp(28px, 4vw, 64px);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+/* ---------- Strip ---------- */
+
+.wpp-candid__strip {
+  display: flex;
+  float: none; /* legacy style.css floats every ul/li */
+  gap: 12px;
+  height: clamp(420px, 42vw, 580px);
   list-style: none;
-  margin: 0 auto;
-  max-width: 1080px;
+  margin: 0;
   padding: 0;
   width: 100%;
 }
 
-/* ---------- Polaroid card ---------- */
-
-.wpp-candid__card {
-  --tilt: -2.5deg;
-  --shift: 0px;
-  background: #faf7f2;
-  border-radius: 3px;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 28px 50px -20px rgba(0, 0, 0, 0.8);
-  cursor: pointer;
+.wpp-candid__panel {
+  background: #e9e3d9;
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -28px rgba(40, 25, 5, 0.55);
+  flex: 1 1 0;
   float: none;
-  padding: 14px 14px 0;
-  position: relative;
-  transform: translateY(var(--shift)) rotate(var(--tilt));
-  transition:
-    transform 0.6s var(--c-ease),
-    box-shadow 0.6s var(--c-ease);
-}
-
-.wpp-candid__card:nth-child(2) { --tilt: 2deg; --shift: 28px; }
-.wpp-candid__card:nth-child(3) { --tilt: 1.5deg; }
-.wpp-candid__card:nth-child(4) { --tilt: -2deg; --shift: 28px; }
-
-.wpp-candid__card:hover,
-.wpp-candid__card:focus-visible {
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 40px 70px -24px rgba(0, 0, 0, 0.9),
-    0 0 0 1px rgba(201, 164, 106, 0.5);
-  outline: none;
-  transform: translateY(calc(var(--shift) - 10px)) rotate(0deg) scale(1.02);
-  z-index: 2;
-}
-
-.wpp-candid__tape {
-  background: rgba(232, 214, 180, 0.75);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  height: 26px;
-  left: 50%;
-  position: absolute;
-  top: -12px;
-  transform: translateX(-50%) rotate(-3deg);
-  width: 96px;
-  z-index: 2;
-}
-
-.wpp-candid__card:nth-child(even) .wpp-candid__tape {
-  transform: translateX(-50%) rotate(4deg);
-}
-
-.wpp-candid__photo {
-  aspect-ratio: 4 / 3; /* matches the CMS photos (640x480) so nothing gets cropped */
-  background: #222;
+  min-width: 0;
   overflow: hidden;
   position: relative;
+  transition: flex-grow 0.8s var(--c-ease);
 }
 
-.wpp-candid__photo img {
+.wpp-candid__panel.is-active {
+  flex-grow: 6;
+}
+
+.wpp-candid__panel img {
+  filter: brightness(0.7) saturate(0.8);
   object-fit: cover;
-  transition: transform 1.2s var(--c-ease), filter 0.6s ease;
+  transform: scale(1.12);
+  transition: filter 0.8s ease, transform 1.4s var(--c-ease);
 }
 
-.wpp-candid__card:hover .wpp-candid__photo img,
-.wpp-candid__card:focus-visible .wpp-candid__photo img {
-  filter: brightness(0.55);
-  transform: scale(1.04);
+.wpp-candid__panel.is-active img {
+  filter: none;
+  transform: scale(1);
 }
 
-.wpp-candid__card-body {
-  bottom: 0;
-  color: #fff;
-  font-size: 14px;
+.wpp-candid__shade {
+  background: linear-gradient(to top, rgba(12, 10, 8, 0.92) 0%, rgba(12, 10, 8, 0.6) 38%, transparent 72%);
+  inset: 0;
+  position: absolute;
+}
+
+/* Gold line that draws across the top of the open panel */
+.wpp-candid__panel::after {
+  background: var(--c-gold);
+  content: "";
+  height: 4px;
   left: 0;
-  line-height: 1.65;
-  margin: 0;
-  opacity: 0;
-  padding: clamp(16px, 2vw, 26px);
   position: absolute;
   right: 0;
-  transform: translateY(14px);
-  transition: opacity 0.45s ease, transform 0.6s var(--c-ease);
+  top: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--c-ease);
 }
 
-.wpp-candid__card:hover .wpp-candid__card-body,
-.wpp-candid__card:focus-visible .wpp-candid__card-body {
-  opacity: 1;
-  transform: translateY(0);
+.wpp-candid__panel.is-active::after {
+  transform: scaleX(1);
 }
 
-.wpp-candid__caption {
-  align-items: baseline;
+.wpp-candid .wpp-candid__toggle {
+  background: none;
+  border: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  inset: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+.wpp-candid__panel.is-active .wpp-candid__toggle {
+  cursor: default;
+}
+
+.wpp-candid .wpp-candid__toggle:focus-visible {
+  outline: 2px solid var(--c-gold-light);
+  outline-offset: -5px;
+}
+
+/* Closed panel: number on top, title running up the side */
+.wpp-candid__spine {
+  align-items: center;
+  color: #fff;
   display: flex;
-  gap: 14px;
-  padding: 16px 6px 20px;
+  flex-direction: column;
+  inset: 0;
+  justify-content: space-between;
+  padding: 22px 0 26px;
+  position: absolute;
+  transition: opacity 0.35s ease;
 }
 
-.wpp-candid__num {
-  color: var(--c-gold);
-  font-size: 13px;
+.wpp-candid__panel.is-active .wpp-candid__spine {
+  opacity: 0;
+}
+
+.wpp-candid__spine-num {
+  color: var(--c-gold-light);
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.18em;
 }
 
-.wpp-candid__card-title {
-  color: #1c1a17;
-  font-size: clamp(15px, 1.4vw, 18px);
-  font-weight: 700;
-  line-height: 1.35;
-  margin: 0;
+.wpp-candid__spine-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  max-height: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  writing-mode: vertical-rl;
 }
 
-/* Phones: swipeable row of polaroids. */
-@media (max-width: 700px) {
-  .wpp-candid__grid {
-    display: flex;
-    gap: 20px;
-    margin: 0 -16px;
-    overflow-x: auto;
-    padding: 18px 16px 24px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+/* Open panel: story at the bottom. Fixed width so the text does not reflow while the panel grows. */
+.wpp-candid__content {
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  padding: clamp(20px, 2.6vw, 36px);
+  position: absolute;
+  transform: translateY(18px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  visibility: hidden;
+  width: min(620px, 56vw);
+}
+
+.wpp-candid__panel.is-active .wpp-candid__content {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease 0.35s, transform 0.8s var(--c-ease) 0.35s;
+  visibility: visible;
+}
+
+.wpp-candid .wpp-candid__num {
+  color: var(--c-gold-light);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  margin: 0 0 10px;
+}
+
+.wpp-candid__num i {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.wpp-candid .wpp-candid__card-title {
+  color: #fff;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 10px;
+  text-align: left;
+}
+
+.wpp-candid .wpp-candid__card-body {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14.5px;
+  letter-spacing: normal;
+  line-height: 1.7;
+  margin: 0;
+  text-align: left;
+}
+
+/* Tablets and phones: the strip stacks, and the open panel grows taller instead of wider. */
+@media (max-width: 800px) {
+  .wpp-candid__strip {
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
   }
 
-  .wpp-candid__grid::-webkit-scrollbar {
-    display: none;
+  .wpp-candid__panel {
+    flex: none;
+    height: 68px;
+    transition: height 0.7s var(--c-ease);
   }
 
-  .wpp-candid__card {
-    --shift: 0px !important;
-    flex: 0 0 84%;
-    padding: 10px 10px 0;
-    scroll-snap-align: center;
+  .wpp-candid__panel.is-active {
+    height: clamp(340px, 92vw, 460px);
   }
 
-  /* No hover on touch: keep the description hidden, the title says enough. */
-  .wpp-candid__card-body {
-    display: none;
+  .wpp-candid__spine {
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-start;
+    padding: 0 20px;
+  }
+
+  .wpp-candid__spine-title {
+    max-height: none;
+    transform: none;
+    writing-mode: horizontal-tb;
+  }
+
+  .wpp-candid__content {
+    width: 100%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wpp-candid__card,
-  .wpp-candid__photo img,
-  .wpp-candid__card-body {
+  .wpp-candid__panel,
+  .wpp-candid__panel img,
+  .wpp-candid__panel::after,
+  .wpp-candid__spine,
+  .wpp-candid__panel .wpp-candid__content {
     transition: none;
   }
 }

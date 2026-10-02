@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AboutIntro } from "./AboutIntro";
 import { CandidMoments } from "./CandidMoments";
+import { FaqSection } from "./FaqSection";
 import { GalleryShowcase } from "./GalleryShowcase";
 import { ServicesSlider } from "./ServicesSlider";
 import { SiteFooter } from "./SiteFooter";
@@ -204,6 +205,7 @@ export function Homepage({ data }: { data: HomepageData }) {
         <Banner image={data.secondBanner} />
         <CandidMoments heading={data.about.heading} html={data.about.html} photos={[...data.about.slides, ...data.galleryImages]} />
         <TextSection heading={data.photography.heading} html={data.photography.html} />
+        <FaqSection />
         <Banner image={data.thirdBanner} />
       </main>
       <SiteFooter footer={data.footer} />
