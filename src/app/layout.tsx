@@ -41,6 +41,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="stylesheet" href="/assets/css/mobile-performance.css" media="screen" />
         <link rel="stylesheet" href="/assets/css/justifiedgallery.css" />
         <link rel="stylesheet" href="/assets/css/lightgallery.css" />
+        <link rel="stylesheet" href="/assets/css/owl-carousel/owl.carousel.css" />
+        <link rel="stylesheet" href="/assets/css/owl-carousel/owl.theme.default.css" />
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
         <link rel="stylesheet" href="/assets/css/site-layout.css?v=28" media="screen" />
         <link rel="stylesheet" href="/assets/css/blog.css" media="screen" />
@@ -48,7 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body suppressHydrationWarning>
         {children}
         <Script id="wpp-legacy-flags" strategy="beforeInteractive">
-          {`window.wppNeedsGallery=true;window.wppNeedsSlick=true;window.wppNeedsOwl=false;window.wppRunWhenIdle=function(cb,t){var ms=t==null?450:t;if(window.requestIdleCallback){window.requestIdleCallback(function(){cb();},{timeout:ms});}else{setTimeout(cb,1);}};`}
+          {`window.wppNeedsGallery=true;window.wppNeedsSlick=true;window.wppNeedsOwl=true;window.wppRunWhenIdle=function(cb,t){var ms=t==null?450:t;if(window.requestIdleCallback){window.requestIdleCallback(function(){cb();},{timeout:ms});}else{setTimeout(cb,1);}};`}
         </Script>
         <Script src="/assets/js/jquery.min.js" strategy="beforeInteractive" />
         <Script src="/assets/js/bootstrap.min.js" strategy="afterInteractive" />
@@ -57,6 +59,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Script src="/assets/js/jquery.justifiedgallery.js" strategy="afterInteractive" />
         <Script src="/assets/js/gallery-init.js" strategy="afterInteractive" />
         <Script src="/assets/js/slick.min.js" strategy="afterInteractive" />
+        <Script src="/assets/js/owl.carousel.min.js" strategy="afterInteractive" />
         <Script src="/assets/js/site-init.js" strategy="afterInteractive" />
       </body>
     </html>

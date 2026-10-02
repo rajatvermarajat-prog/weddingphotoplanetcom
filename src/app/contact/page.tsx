@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
-import { CarouselBanner, FullBanner, PublicLayout } from "@/app/_wpp-pages/Legacy";
+import { FullBanner, PublicLayout } from "@/app/_wpp-pages/Legacy";
 import { contactPageContent } from "@/app/_wpp-pages/contact-data";
+import { footer } from "@/app/_wpp-pages/data";
+import WeddingExperienceSlider from "../wedding/WeddingExperienceSlider";
+import ContactHero from "./ContactHero";
+import EnquiryForm from "./EnquiryForm";
+import StoriesShowcase from "./StoriesShowcase";
+import "../wedding/wedding-page.css";
+import "./contact-page.css";
 
 const { content } = contactPageContent;
 
@@ -9,116 +16,105 @@ export const metadata: Metadata = {
   description: contactPageContent.metadata.description,
 };
 
-function Field({ id, label, name, placeholder, type = "text" }: { id: string; label: string; name: string; placeholder: string; type?: string }) {
+const phones = footer.mobile.split(",").map((phone) => phone.trim());
+const emails = [footer.email1, footer.email2];
+const dial = (phone: string) => phone.replace(/[^\d+]/g, "");
+// Same WhatsApp line as the site footer and the floating chat button.
+const whatsappPhone = phones[1] ?? phones[0];
+const whatsappNumber = whatsappPhone.replace(/\D/g, "");
+const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}`;
+
+const steps = [
+  { title: "Share your details", text: "Your dates, venue, and what you have in mind." },
+  { title: "We get back to you", text: "We read every enquiry and usually reply within one business day." },
+  { title: "Plan your coverage", text: "We suggest the best way to cover your story." },
+];
+
+function Icon({ path }: { path: string }) {
   return (
-    <div className="col-md-12">
-      <label className="wpp-contact-label" htmlFor={id}>{label}</label>
-      <div className="form-element">
-        <input id={id} type={type} name={name} placeholder={placeholder} required />
-      </div>
-    </div>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={path} />
+    </svg>
   );
 }
 
-function ContactForm() {
+function ContactCards() {
   return (
-    <form action="" method="post" className="wpp-contact-form">
-      <div className="row">
-        <Field id="wpp-c-name" label="Name" name="user_name" placeholder="Your name" />
-        <Field id="wpp-c-email" label="Email" name="user_email" placeholder="you@example.com" type="email" />
-        <Field id="wpp-c-phone" label="Phone" name="user_number" placeholder="Phone number" type="tel" />
-        <Field id="wpp-c-subject" label="Subject" name="subject" placeholder="e.g. Wedding date enquiry" />
-        <div className="col-md-12">
-          <label className="wpp-contact-label" htmlFor="wpp-c-msg">Message</label>
-          <div className="form-element">
-            <textarea
-              id="wpp-c-msg"
-              className="wpp-contact-textarea"
-              name="comment"
-              cols={30}
-              rows={4}
-              placeholder="Tell us about your wedding date, location, and what you are looking for"
-              required
-            />
-          </div>
+    <section className="ct-cards" aria-label="Ways to reach us">
+      <div className="ct-cards__grid">
+        <div className="ct-card">
+          <span className="ct-card__icon">
+            <Icon path="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </span>
+          <h2 className="ct-card__title">Call Us</h2>
+          {phones.map((phone) => (
+            <a className="ct-card__link" href={`tel:${dial(phone)}`} key={phone}>
+              {phone}
+            </a>
+          ))}
         </div>
-        <div className="col-md-12">
-          <div className="form-element wpp-contact-submit-wrap">
-            <button type="submit" className="wpp-contact-submit"><span>Submit enquiry</span></button>
-          </div>
+        <div className="ct-card">
+          <span className="ct-card__icon">
+            <Icon path="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </span>
+          <h2 className="ct-card__title">WhatsApp</h2>
+          <a className="ct-card__link" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            {whatsappPhone}
+          </a>
+          <a className="ct-card__link ct-card__link--action" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            Start a chat
+          </a>
         </div>
-      </div>
-    </form>
-  );
-}
-
-function ContactLead() {
-  return (
-    <section className="blog-main-top wpp-contact-lead">
-      <div className="container">
-        <div className="col-md-12">
-          <div className="titlebar">
-            <h2>{content.main_heading}</h2>
-            <span className="b-line" />
-          </div>
-          <p className="wpp-contact-intro">{content.intro_text}</p>
-          <div className="row wpp-contact-split">
-            <div className="col-md-6 wpp-contact-gallery-col">
-              <div className="wpp-contact-gallery-card">
-                <CarouselBanner id="carousel-2" slides={[...contactPageContent.gallerySlides]} alt="Wedding photography preview" />
-              </div>
-            </div>
-            <div className="col-md-6 wpp-contact-form-col">
-              <div className="wpp-contact-form-card">
-                <h3 className="wpp-contact-form-title">{content.heading2}</h3>
-                <p className="wpp-contact-form-lead">{content.desc1}</p>
-                <ContactForm />
-              </div>
-            </div>
-          </div>
+        <div className="ct-card">
+          <span className="ct-card__icon">
+            <Icon path="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" />
+          </span>
+          <h2 className="ct-card__title">Email</h2>
+          {emails.map((email) => (
+            <a className="ct-card__link" href={`mailto:${email}`} key={email}>
+              {email}
+            </a>
+          ))}
+        </div>
+        <div className="ct-card">
+          <span className="ct-card__icon">
+            <Icon path="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+          </span>
+          <h2 className="ct-card__title">Find Us</h2>
+          <p className="ct-card__text">Wedding Photo Planet</p>
+          <p className="ct-card__text">{footer.address}</p>
         </div>
       </div>
     </section>
   );
 }
 
-function StoriesCarousel() {
+function EnquirySection() {
   return (
-    <section className="two-part-contact wpp-contact-stories">
-      <div className="container-fluid wpp-contact-stories-inner">
-        <header className="wpp-contact-stories-head">
-          <h2 className="wpp-contact-stories-title">Stories &amp; moments</h2>
-          <p className="wpp-contact-stories-desc">
-            Short notes from recent celebrations alongside photographs. From candid rituals to portraits with family, here is a little more context around the frames you see in our galleries. Use the arrows to browse.
-          </p>
-        </header>
-        <div id="carousel-3" className="carousel slide wpp-contact-stories-carousel" data-ride="carousel">
-          <div className="carousel-inner">
-            {contactPageContent.stories.map((story, index) => (
-              <div className={`item ${index === 0 ? "active" : ""}`} key={story.image}>
-                <div className="wpp-contact-slide">
-                  <div className="wpp-contact-slide-text-col">
-                    <h3 className="wpp-contact-slide-title">{story.title}</h3>
-                    <p className="wpp-contact-slide-text">{story.text}</p>
-                    <p className="wpp-contact-slide-hint">Planning something similar? Mention your city and season in the form above—we will suggest the best way to cover your story.</p>
-                  </div>
-                  <div className="wpp-contact-slide-media-col">
-                    <div className="wpp-contact-slide-img-wrap">
-                      <img src={story.image} alt={story.title} loading="lazy" decoding="async" width="640" height="360" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <section className="ct-enquiry" id="enquiry">
+      <div className="ct-enquiry__inner">
+        <div className="ct-enquiry__side">
+          <p className="ct-eyebrow">{content.heading2}</p>
+          <h2 className="ct-title">Tell Us About Your Day</h2>
+          <span className="ct-line" aria-hidden="true" />
+          <p className="ct-enquiry__text">{content.desc1}</p>
+          <ol className="ct-steps">
+            {steps.map((step, index) => (
+              <li className="ct-step" key={step.title}>
+                <span className="ct-step__num">{String(index + 1).padStart(2, "0")}</span>
+                <span className="ct-step__copy">
+                  <strong>{step.title}</strong>
+                  {step.text}
+                </span>
+              </li>
             ))}
+          </ol>
+          <div className="ct-enquiry__photos">
+            <WeddingExperienceSlider slides={[...contactPageContent.gallerySlides]} alt="Wedding photography by Wedding Photo Planet" />
           </div>
-          <a className="left carousel-control" href="#carousel-3" data-slide="prev">
-            <i className="fa fa-chevron-left" aria-hidden="true" />
-            <span className="sr-only">Previous</span>
-          </a>
-          <a className="right carousel-control" href="#carousel-3" data-slide="next">
-            <i className="fa fa-chevron-right" aria-hidden="true" />
-            <span className="sr-only">Next</span>
-          </a>
+        </div>
+        <div className="ct-enquiry__card">
+          <EnquiryForm whatsappNumber={whatsappNumber} email={emails[0]} />
         </div>
       </div>
     </section>
@@ -128,15 +124,18 @@ function StoriesCarousel() {
 export default function ContactPage() {
   return (
     <PublicLayout activePath="/contact">
-      <div className="wpp-contact-page">
-        <section className="main-banner wpp-contact-hero">
-          <CarouselBanner slides={[...contactPageContent.heroSlides]} alt="Contact - Wedding Photo Planet" />
-        </section>
-        <ContactLead />
-        <FullBanner src={content.banner1} alt="Wedding Photo Planet" />
-        <StoriesCarousel />
-        <FullBanner src={content.banner2} alt="Wedding Photo Planet" />
-      </div>
+      <ContactHero
+        slides={contactPageContent.heroSlides}
+        eyebrow={content.main_heading}
+        title="Let&rsquo;s Capture Your Story"
+        text={content.intro_text}
+        whatsappUrl={whatsappUrl}
+      />
+      <ContactCards />
+      <EnquirySection />
+      <FullBanner src={content.banner1} alt="Wedding Photo Planet" />
+      <StoriesShowcase stories={contactPageContent.stories} />
+      <FullBanner src={content.banner2} alt="Wedding Photo Planet" />
     </PublicLayout>
   );
 }
