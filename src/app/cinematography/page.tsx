@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { FullBanner, PublicLayout, TitleTextSection } from "@/app/_wpp-pages/Legacy";
 import { cinematographyPageContent } from "@/app/_wpp-pages/cinematography-data";
-import { YouTubeLite } from "./YouTubeLite";
+import FilmHero from "./FilmHero";
+import FilmReel from "./FilmReel";
+import FilmsSlideshow from "./FilmsSlideshow";
+import "../wedding/wedding-page.css";
+import "./cinematography-page.css";
 
 const { content } = cinematographyPageContent;
 
@@ -10,27 +14,17 @@ export const metadata: Metadata = {
   description: cinematographyPageContent.metadata.description,
 };
 
-function HeroVideoCarousel() {
+function FilmExperience() {
   return (
-    <section className="main-banner">
-      <div className="container-fluid">
-        <div className="row">
-          <div id="carousel-1" className="carousel slide" data-ride="carousel">
-            <div className="carousel-inner">
-              {cinematographyPageContent.heroVideos.map((id, index) => (
-                <div className={`item ${index === 0 ? "active" : ""}`} key={id}>
-                  <YouTubeLite id={id} title="YouTube video player" height={506} />
-                </div>
-              ))}
-            </div>
-            <a className="left carousel-control" href="#carousel-1" data-slide="prev">
-              <i className="fa fa-chevron-left" aria-hidden="true" />
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="right carousel-control" href="#carousel-1" data-slide="next">
-              <i className="fa fa-chevron-right" aria-hidden="true" />
-              <span className="sr-only">Next</span>
-            </a>
+    <section className="we-section cf-experience">
+      <div className="we-inner">
+        <FilmReel ids={cinematographyPageContent.owlVideos} title="Wedding film by Wedding Photo Planet" />
+        <div className="we-copy">
+          <p className="we-eyebrow">Our Experience</p>
+          <h2 className="we-title">{content.heading3}</h2>
+          <span className="we-line" aria-hidden="true" />
+          <div className="we-text">
+            <p dangerouslySetInnerHTML={{ __html: content.desc3 }} />
           </div>
         </div>
       </div>
@@ -38,50 +32,18 @@ function HeroVideoCarousel() {
   );
 }
 
-function VideoGrid() {
+function FooterLastImages() {
   return (
-    <section>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="wedding-main">
-            {cinematographyPageContent.videos.map((video) => (
-              <div className="col-md-3 wedding-col" key={video.id}>
-                <div className="wedding-link">
-                  <YouTubeLite id={video.id} title={video.title} className="wpp-yt--grid" />
-                </div>
-                <div className="album-caption">
-                  <h2 className="album-title s12">{video.title}</h2>
-                </div>
-              </div>
-            ))}
+    <section className="footer-last-images">
+      <div className="container">
+        <div className="col-md-12">
+          <div className="titlebar">
+            <h2>{content.heading4}</h2>
+            <span className="b-line" />
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function OwlVideoSlider() {
-  return (
-    <section className="instagram-main home-icon wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-      <div className="gallery-slider">
-        <div
-          className="owl-carousel owl-theme"
-          data-items="4"
-          data-laptop="4"
-          data-tablet="4"
-          data-mobile="1"
-          data-nav="true"
-          data-dots="false"
-          data-autoplay="false"
-          data-speed="2000"
-          data-autotime="3000"
-        >
-          {cinematographyPageContent.owlVideos.map((id) => (
-            <div className="item thumbnail" key={id}>
-              <YouTubeLite id={id} title="YouTube video player" className="wpp-yt-owl-embed" />
-            </div>
-          ))}
+          <div className="images-page-content-sec">
+            <div className="wpp-html-content" dangerouslySetInnerHTML={{ __html: content.desc4 }} />
+          </div>
         </div>
       </div>
     </section>
@@ -91,17 +53,15 @@ function OwlVideoSlider() {
 export default function CinematographyPage() {
   return (
     <PublicLayout activePath="/cinematography">
-      <HeroVideoCarousel />
-      <VideoGrid />
-      <TitleTextSection heading={content.heading1} html={content.desc1} />
-      <FullBanner src={content.banner1} alt="Celebrity Photography" />
-      <TitleTextSection heading={content.heading2} html={content.desc2} />
-      <FullBanner src={content.banner2} alt="Celebrity Photography" />
-      <TitleTextSection heading={content.heading3} html={content.desc3} />
-      <OwlVideoSlider />
-      <TitleTextSection heading={content.heading4} html={content.desc3} />
-      <div className="gap" />
-      <FullBanner src={content.banner3} alt="Celebrity Photography" />
+      <FilmHero id={cinematographyPageContent.heroVideos[0]} title="Featured wedding film by Wedding Photo Planet" />
+      <FilmsSlideshow films={cinematographyPageContent.videos} />
+      <TitleTextSection heading={content.heading1} html={content.desc1} className="images-page-content-sec wpp-before-fixed" />
+      <FullBanner src={content.banner1} alt="Wedding cinematography" className="wpp-banner-fixed cf-banner-fixed" />
+      <TitleTextSection heading={content.heading2} html={content.desc2} className="images-page-content-sec wpp-after-fixed" />
+      <FullBanner src={content.banner2} alt="Wedding cinematography" />
+      <FilmExperience />
+      <FooterLastImages />
+      <FullBanner src={content.banner3} alt="Wedding cinematography" />
     </PublicLayout>
   );
 }
