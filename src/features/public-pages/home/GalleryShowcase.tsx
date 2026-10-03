@@ -6,8 +6,6 @@ import type { HomepageGalleryImage } from "./types";
 
 const MAX_IMAGES = 40;
 const COLUMNS = 5;
-// Per-column parallax travel in px (alternating directions).
-const SPEEDS = [-70, 50, -110, 40, -60];
 
 function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -112,40 +110,6 @@ export function GalleryShowcase({
     return () => observer.disconnect();
   }, [shown.length, perRow]);
 
-  // Column parallax: -1..1 progress through the section, written to a CSS variable.
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || prefersReducedMotion()) {
-      return;
-    }
-
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      if (rect.bottom < 0 || rect.top > vh) {
-        return;
-      }
-      const progress = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
-      section.style.setProperty("--p", Math.max(-1, Math.min(1, progress)).toFixed(4));
-    };
-    const onScroll = () => {
-      if (!frame) {
-        frame = requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
-
   const step = useCallback(
     (delta: number) => setOpen((current) => (current === null ? current : (current + delta + shown.length) % shown.length)),
     [shown.length],
@@ -216,7 +180,7 @@ export function GalleryShowcase({
       ) : (
       <div className="wpp-gallery__grid">
         {columns.map((column, columnIndex) => (
-          <div className="wpp-gallery__col" key={columnIndex} style={{ "--speed": `${SPEEDS[columnIndex] ?? 0}px` } as React.CSSProperties}>
+          <div className="wpp-gallery__col" key={columnIndex}>
             {column.map(({ image, index }, rowIndex) => (
               <button
                 type="button"

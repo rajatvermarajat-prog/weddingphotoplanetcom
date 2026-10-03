@@ -1,16 +1,20 @@
 import { mainReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPagesPage() {
-  const [home, gallery, wedding, preWedding, video, contact] = await Promise.all([
-    mainReadDb.widHome.count(),
-    mainReadDb.widGallery.count(),
-    mainReadDb.widWeddingPage.count(),
-    mainReadDb.widPreWeddingPage.count(),
-    mainReadDb.widVideoDescription.count(),
-    mainReadDb.widContact.count(),
-  ]);
+  const { data: counts, state } = await safeAdminRead(() => Promise.all([
+      mainReadDb.widHome.count(),
+      mainReadDb.widGallery.count(),
+      mainReadDb.widWeddingPage.count(),
+      mainReadDb.widPreWeddingPage.count(),
+      mainReadDb.widVideoDescription.count(),
+      mainReadDb.widContact.count(),
+    ]),
+    [0, 0, 0, 0, 0, 0],
+  );
+  const [home, gallery, wedding, preWedding, video, contact] = counts;
 
   const rows = [
     ["Home", home],
@@ -29,6 +33,7 @@ export default async function AdminPagesPage() {
           <h1 className="admin-title">Public Page Records</h1>
         </div>
       </header>
+      <AdminDatabaseNotice state={state} />
       <section className="admin-section">
         <table className="admin-table">
           <thead><tr><th>Page</th><th>Existing Records</th><th>Status</th></tr></thead>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PasswordField } from "./PasswordField";
 import "../admin.css";
 
 export const metadata: Metadata = {
@@ -25,10 +26,7 @@ export default async function AdminLoginPage({
             <label htmlFor="email">Email</label>
             <input id="email" name="email" type="email" autoComplete="username" required />
           </div>
-          <div className="admin-field">
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" autoComplete="current-password" required />
-          </div>
+          <PasswordField />
           <button className="admin-button" type="submit">Login</button>
         </form>
         <p className="admin-muted">

@@ -5,16 +5,39 @@ main#main-content > section.main-banner.wpp-blog-hero.bl-hero {
   --wpp-blog-hero-h: clamp(520px, calc(100svh - var(--wpp-header-offset, 0px)), 980px);
 }
 
+main#main-content > section.main-banner.wpp-blog-hero.bl-hero .carousel-inner > .item {
+  background-attachment: fixed !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+main#main-content > section.main-banner.wpp-blog-hero.bl-hero .carousel-inner > .item > img {
+  opacity: 0;
+  object-position: center center !important;
+}
+
+main#main-content > section.main-banner.wpp-blog-hero.bl-hero .wpp-blog-hero__overlay {
+  background: rgba(0, 0, 0, 0.18);
+}
+
 @media (max-width: 767px) {
   main#main-content > section.main-banner.wpp-blog-hero.bl-hero {
     --wpp-blog-hero-h: clamp(320px, 68svh, 620px);
     padding-bottom: 0; /* legacy mobile padding leaves a grey band under the photo */
   }
+
+  main#main-content > section.main-banner.wpp-blog-hero.bl-hero .carousel-inner > .item {
+    background-attachment: scroll !important;
+  }
 }
 
 .bl-section {
   background: #fff;
+  margin-top: 0;
   padding: clamp(48px, 6vw, 88px) 24px clamp(56px, 7vw, 96px);
+  position: relative;
+  z-index: 2;
 }
 
 .bl-section *,

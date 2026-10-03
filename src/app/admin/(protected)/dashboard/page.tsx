@@ -1,21 +1,26 @@
 import { blogReadDb, mainReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [images, products, posts, pages] = await Promise.all([
-    mainReadDb.widProductImage.count(),
-    mainReadDb.widProduct.count(),
-    blogReadDb.blogPost.count(),
-    Promise.all([
-      mainReadDb.widHome.count(),
-      mainReadDb.widGallery.count(),
-      mainReadDb.widWeddingPage.count(),
-      mainReadDb.widPreWeddingPage.count(),
-      mainReadDb.widVideoDescription.count(),
-      mainReadDb.widContact.count(),
-    ]).then((counts) => counts.reduce((sum, count) => sum + count, 0)),
-  ]);
+  const { data, state } = await safeAdminRead(async () => {
+    const [images, products, posts, pages] = await Promise.all([
+      mainReadDb.widProductImage.count(),
+      mainReadDb.widProduct.count(),
+      blogReadDb.blogPost.count(),
+      Promise.all([
+        mainReadDb.widHome.count(),
+        mainReadDb.widGallery.count(),
+        mainReadDb.widWeddingPage.count(),
+        mainReadDb.widPreWeddingPage.count(),
+        mainReadDb.widVideoDescription.count(),
+        mainReadDb.widContact.count(),
+      ]).then((counts) => counts.reduce((sum, count) => sum + count, 0)),
+    ]);
+
+    return { images, products, posts, pages };
+  }, { images: 0, products: 0, posts: 0, pages: 0 });
 
   return (
     <>
@@ -31,11 +36,13 @@ export default async function AdminDashboardPage() {
       </header>
 
       <section className="admin-grid" aria-label="CMS overview">
-        <article className="admin-card"><span className="admin-muted">Gallery Images</span><strong>{images}</strong></article>
-        <article className="admin-card"><span className="admin-muted">Clients / Albums</span><strong>{products}</strong></article>
-        <article className="admin-card"><span className="admin-muted">Blog Posts</span><strong>{posts}</strong></article>
-        <article className="admin-card"><span className="admin-muted">Page Records</span><strong>{pages}</strong></article>
+        <article className="admin-card"><span className="admin-muted">Gallery Images</span><strong>{data.images}</strong></article>
+        <article className="admin-card"><span className="admin-muted">Clients / Albums</span><strong>{data.products}</strong></article>
+        <article className="admin-card"><span className="admin-muted">Blog Posts</span><strong>{data.posts}</strong></article>
+        <article className="admin-card"><span className="admin-muted">Page Records</span><strong>{data.pages}</strong></article>
       </section>
+
+      <AdminDatabaseNotice state={state} />
 
       <section className="admin-section">
         <h2>Implementation Status</h2>

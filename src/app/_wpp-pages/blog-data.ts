@@ -5,36 +5,20 @@ export const blogPageContent = {
   },
   "heroBanners": [
     {
-      "src": "/uploads/blog/banner/blog-banner-1.jpg",
-      "alt": "Wedding Photo Planet blog banner 1"
-    },
-    {
-      "src": "/uploads/blog/banner/blog-banner-2.jpg",
-      "alt": "Wedding Photo Planet blog banner 2"
-    },
-    {
       "src": "/uploads/blog/banner/blog-banner-3.jpg",
-      "alt": "Wedding Photo Planet blog banner 3"
-    },
-    {
-      "src": "/uploads/blog/banner/blog-banner-4.jpg",
-      "alt": "Wedding Photo Planet blog banner 4"
-    },
-    {
-      "src": "/uploads/blog/banner/blog-banner-5.jpg",
-      "alt": "Wedding Photo Planet blog banner 5"
+      "alt": "Wedding Photo Planet blog banner"
     },
     {
       "src": "/uploads/blog/banner/blog-banner-6.jpg",
-      "alt": "Wedding Photo Planet blog banner 6"
+      "alt": "Wedding photography blog banner"
     },
     {
       "src": "/uploads/blog/banner/blog-banner-7.jpg",
-      "alt": "Wedding Photo Planet blog banner 7"
+      "alt": "Pre-wedding photography blog banner"
     },
     {
       "src": "/uploads/blog/banner/blog-banner-8.jpg",
-      "alt": "Wedding Photo Planet blog banner 8"
+      "alt": "Candid wedding photography blog banner"
     }
   ],
   "posts": [

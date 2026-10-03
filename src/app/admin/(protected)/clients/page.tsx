@@ -1,12 +1,13 @@
 import { mainReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminClientsPage() {
-  const products = await mainReadDb.widProduct.findMany({
+  const { data: products, state } = await safeAdminRead(() => mainReadDb.widProduct.findMany({
     orderBy: { id: "desc" },
     take: 40,
-  });
+  }), []);
 
   return (
     <>
@@ -17,6 +18,7 @@ export default async function AdminClientsPage() {
         </div>
         <a className="admin-button-secondary" href="/admin/settings">Configure Writes</a>
       </header>
+      <AdminDatabaseNotice state={state} />
       <section className="admin-section">
         <table className="admin-table">
           <thead>

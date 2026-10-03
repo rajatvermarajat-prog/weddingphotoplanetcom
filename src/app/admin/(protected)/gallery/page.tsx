@@ -1,12 +1,13 @@
 import { mainReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminGalleryPage() {
-  const images = await mainReadDb.widProductImage.findMany({
+  const { data: images, state } = await safeAdminRead(() => mainReadDb.widProductImage.findMany({
     orderBy: { id: "desc" },
     take: 40,
-  });
+  }), []);
 
   return (
     <>
@@ -17,6 +18,7 @@ export default async function AdminGalleryPage() {
         </div>
         <a className="admin-button" href="/admin/gallery/upload">Upload Images</a>
       </header>
+      <AdminDatabaseNotice state={state} />
       <section className="admin-section">
         <table className="admin-table">
           <thead>

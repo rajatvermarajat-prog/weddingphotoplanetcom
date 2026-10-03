@@ -103,9 +103,6 @@ export function WhyChooseCarousel({ whyChoose, images = [] }: { whyChoose: Homep
               ) : null;
             })}
             <div className="wpp-why__panel-inner" key={active}>
-              <span className="wpp-why__bignum" aria-hidden="true">
-                {String(active + 1).padStart(2, "0")}
-              </span>
               <span className="wpp-why__icon" aria-hidden="true">
                 <i className={`fa ${ICONS[active % ICONS.length]}`} />
               </span>

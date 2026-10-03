@@ -11,7 +11,7 @@
   position: relative;
 }
 
-/* Edge-to-edge columns; each column drifts at its own speed on scroll. */
+/* Edge-to-edge columns aligned to one straight top edge. */
 .wpp-gallery__grid {
   display: grid;
   gap: 10px;
@@ -27,12 +27,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transform: translate3d(0, calc(var(--p) * var(--speed, 0px)), 0);
-  will-change: transform;
-}
-
-.wpp-gallery__col:nth-child(even) {
-  margin-top: 60px;
 }
 
 .wpp-gallery__reveal {

@@ -1,13 +1,14 @@
 import { blogReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminBlogPage() {
-  const posts = await blogReadDb.blogPost.findMany({
+  const { data: posts, state } = await safeAdminRead(() => blogReadDb.blogPost.findMany({
     include: { author: true },
     orderBy: { createdAt: "desc" },
     take: 40,
-  });
+  }), []);
 
   return (
     <>
@@ -18,6 +19,7 @@ export default async function AdminBlogPage() {
         </div>
         <a className="admin-button" href="/admin/blog/new">New Post</a>
       </header>
+      <AdminDatabaseNotice state={state} />
       <section className="admin-section">
         <table className="admin-table">
           <thead>

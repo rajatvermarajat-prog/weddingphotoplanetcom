@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { mainReadDb } from "@/server/db";
+import { AdminDatabaseNotice, safeAdminRead } from "@/lib/admin/safe-read";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +9,25 @@ export default async function AdminClientDetailPage({ params }: { params: Promis
   const productId = Number(id);
   if (!Number.isInteger(productId)) notFound();
 
-  const product = await mainReadDb.widProduct.findUnique({ where: { id: productId } });
+  const { data: product, state } = await safeAdminRead(
+    () => mainReadDb.widProduct.findUnique({ where: { id: productId } }),
+    null,
+  );
+
+  if (!state.databaseAvailable) {
+    return (
+      <>
+        <header className="admin-topbar">
+          <div>
+            <p className="admin-kicker">Client / Album</p>
+            <h1 className="admin-title">Record {productId}</h1>
+          </div>
+        </header>
+        <AdminDatabaseNotice state={state} />
+      </>
+    );
+  }
+
   if (!product) notFound();
 
   return (

@@ -620,7 +620,14 @@ function nullable(value: string | undefined): string | null {
 }
 
 function getHomepageDataFromSqlDump(): HomepageData {
-  const dumpPath = path.resolve(process.cwd(), "../storage/database/u827241022_weddingp_web.sql");
+  const dumpPathCandidates = [
+    path.resolve(process.cwd(), "../storage/database/u827241022_weddingp_web.sql"),
+    path.resolve(
+      process.cwd(),
+      "../weddingphotoplanet-com-code/domains/weddingphotoplanet.com/public_html/storage/database/u827241022_weddingp_web.sql",
+    ),
+  ];
+  const dumpPath = dumpPathCandidates.find((candidate) => fs.existsSync(candidate)) ?? dumpPathCandidates[0];
   const sql = fs.readFileSync(dumpPath, "utf8");
 
   const homeRow = extractInsertRows(sql, "wid_home")[0] ?? [];

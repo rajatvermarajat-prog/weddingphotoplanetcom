@@ -17,7 +17,7 @@ function BlogHero() {
           <div id="carousel-1" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
               {blogPageContent.heroBanners.map((banner, index) => (
-                <div className={`item${index === 0 ? " active" : ""}`} key={banner.src}>
+                <div className={`item${index === 0 ? " active" : ""}`} key={banner.src} style={{ backgroundImage: `url("${banner.src}")` }}>
                   <img
                     src={banner.src}
                     alt={banner.alt}
@@ -41,17 +41,6 @@ function BlogHero() {
         </div>
       </div>
       <div className="wpp-blog-hero__overlay" aria-hidden="true" />
-      <div className="wpp-blog-hero__caption">
-        <div className="titlebar wpp-blog-hero__titlebar">
-          <h1>Blog</h1>
-          <span className="b-line" />
-        </div>
-        <nav className="wpp-blog-hero__breadcrumb" aria-label="Breadcrumb">
-          <Link href="/">Home</Link>
-          <span className="wpp-blog-hero__breadcrumb-sep" aria-hidden="true">/</span>
-          <span aria-current="page">Blog</span>
-        </nav>
-      </div>
     </section>
   );
 }
