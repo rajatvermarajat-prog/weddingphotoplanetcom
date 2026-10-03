@@ -52,11 +52,12 @@ function Field({ id, label, optional = false, error, children }: { id: string; l
 }
 
 // There is no enquiry backend: the form hands the filled-in enquiry to WhatsApp or the visitor's mail app.
-export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber: string; email: string }) {
+export default function EnquiryForm({ whatsappNumber, email, idPrefix = "ct" }: { whatsappNumber: string; email: string; idPrefix?: string }) {
   const [values, setValues] = useState<Values>(emptyValues);
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState<Channel | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const id = (name: string) => `${idPrefix}-${name}`;
 
   const set = (key: keyof Values, value: string) => {
     setValues((v) => ({ ...v, [key]: value }));
@@ -113,9 +114,9 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
   return (
     <form ref={formRef} className="ct-form" onSubmit={onSubmit} noValidate>
       <div className="ct-form__row">
-        <Field id="ct-name" label="Your name" error={errors.name}>
+        <Field id={id("name")} label="Your name" error={errors.name}>
           <input
-            id="ct-name"
+            id={id("name")}
             name="name"
             type="text"
             autoComplete="name"
@@ -123,12 +124,12 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
             value={values.name}
             onChange={(event) => set("name", event.target.value)}
             aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "ct-name-error" : undefined}
+            aria-describedby={errors.name ? `${id("name")}-error` : undefined}
           />
         </Field>
-        <Field id="ct-phone" label="Phone" error={errors.phone}>
+        <Field id={id("phone")} label="Phone" error={errors.phone}>
           <input
-            id="ct-phone"
+            id={id("phone")}
             name="phone"
             type="tel"
             autoComplete="tel"
@@ -137,14 +138,14 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
             value={values.phone}
             onChange={(event) => set("phone", event.target.value)}
             aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? "ct-phone-error" : undefined}
+            aria-describedby={errors.phone ? `${id("phone")}-error` : undefined}
           />
         </Field>
       </div>
 
-      <Field id="ct-email" label="Email" optional error={errors.email}>
+      <Field id={id("email")} label="Email" optional error={errors.email}>
         <input
-          id="ct-email"
+          id={id("email")}
           name="email"
           type="email"
           autoComplete="email"
@@ -152,15 +153,15 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
           value={values.email}
           onChange={(event) => set("email", event.target.value)}
           aria-invalid={Boolean(errors.email)}
-          aria-describedby={errors.email ? "ct-email-error" : undefined}
+          aria-describedby={errors.email ? `${id("email")}-error` : undefined}
         />
       </Field>
 
       <div className="ct-field">
-        <span className="ct-field__label" id="ct-event-label">
+        <span className="ct-field__label" id={id("event-label")}>
           What are you planning?
         </span>
-        <div className="ct-chips" role="group" aria-labelledby="ct-event-label">
+        <div className="ct-chips" role="group" aria-labelledby={id("event-label")}>
           {EVENT_TYPES.map((type) => (
             <button
               type="button"
@@ -176,12 +177,12 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
       </div>
 
       <div className="ct-form__row">
-        <Field id="ct-date" label="Event date" optional>
-          <input id="ct-date" name="date" type="date" value={values.date} onChange={(event) => set("date", event.target.value)} />
+        <Field id={id("date")} label="Event date" optional>
+          <input id={id("date")} name="date" type="date" value={values.date} onChange={(event) => set("date", event.target.value)} />
         </Field>
-        <Field id="ct-location" label="City or venue" optional>
+        <Field id={id("location")} label="City or venue" optional>
           <input
-            id="ct-location"
+            id={id("location")}
             name="location"
             type="text"
             placeholder="e.g. Delhi NCR"
@@ -191,9 +192,9 @@ export default function EnquiryForm({ whatsappNumber, email }: { whatsappNumber:
         </Field>
       </div>
 
-      <Field id="ct-message" label="Message" optional>
+      <Field id={id("message")} label="Message" optional>
         <textarea
-          id="ct-message"
+          id={id("message")}
           name="message"
           rows={4}
           maxLength={MESSAGE_MAX}

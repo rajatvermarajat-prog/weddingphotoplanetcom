@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import { GlobalEnquiryPopup } from "./GlobalEnquiryPopup";
+import "./contact/contact-page.css";
 import "./site-footer.css";
 
 export const metadata: Metadata = {
@@ -49,6 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body suppressHydrationWarning>
         {children}
+        <GlobalEnquiryPopup />
         <Script id="wpp-legacy-flags" strategy="beforeInteractive">
           {`window.wppNeedsGallery=true;window.wppNeedsSlick=true;window.wppNeedsOwl=true;window.wppRunWhenIdle=function(cb,t){var ms=t==null?450:t;if(window.requestIdleCallback){window.requestIdleCallback(function(){cb();},{timeout:ms});}else{setTimeout(cb,1);}};`}
         </Script>

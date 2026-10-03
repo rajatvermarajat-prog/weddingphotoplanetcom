@@ -2,6 +2,7 @@
 
 import React, { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { HomepageImage } from "./types";
 
 const HAPPY_COUPLES = 1000;
@@ -194,10 +195,10 @@ export function AboutIntro({
           </ul>
 
           <div className="wpp-about__actions wpp-about__reveal" style={{ "--d": 6 } as Style}>
-            <a className="wpp-about__cta" href="/contact" title="Contact Wedding Photo Planet">
+            <Link className="wpp-about__cta" href="/contact" title="Contact Wedding Photo Planet">
               <span>Get In Touch</span>
               <i className="fa fa-long-arrow-right" aria-hidden="true" />
-            </a>
+            </Link>
             <button
               type="button"
               className="wpp-about__toggle"

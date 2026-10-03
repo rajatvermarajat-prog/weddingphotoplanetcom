@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { HomepageData } from "./types";
 
 const footerLinks = [
@@ -36,10 +37,10 @@ export function SiteFooter({ footer }: { footer: HomepageData["footer"] }) {
           <p className="wpp-foot__sub">Let&rsquo;s talk about your dates and how we can capture your day.</p>
         </div>
         <div className="wpp-foot__cta-actions">
-          <a className="wpp-foot__btn wpp-foot__btn--solid" href="/contact" title="Contact Wedding Photo Planet">
+          <Link className="wpp-foot__btn wpp-foot__btn--solid" href="/contact" title="Contact Wedding Photo Planet">
             <span>Book Your Date</span>
             <i className="fa fa-long-arrow-right" aria-hidden="true" />
-          </a>
+          </Link>
           <a className="wpp-foot__btn" href="https://api.whatsapp.com/send?phone=919990905195" target="_blank" rel="noopener noreferrer">
             <i className="fa fa-whatsapp" aria-hidden="true" />
             <span>WhatsApp</span>
@@ -95,9 +96,9 @@ export function SiteFooter({ footer }: { footer: HomepageData["footer"] }) {
           <ul className="wpp-foot__links">
             {footerLinks.map((item) => (
               <li key={item.href}>
-                <a className="wpp-foot__link" href={item.href} title={item.title}>
+                <Link className="wpp-foot__link" href={item.href} title={item.title}>
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

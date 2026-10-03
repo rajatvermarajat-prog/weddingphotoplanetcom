@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { HomepageGalleryImage } from "./types";
 
 const MAX_IMAGES = 40;
@@ -207,10 +208,10 @@ export function GalleryShowcase({
 
       {showMore ? (
         <div className="wpp-gallery__more">
-          <a href="/images" title="Wedding & Pre Wedding Photos" className="wpp-gallery__cta">
+          <Link href="/images" title="Wedding & Pre Wedding Photos" className="wpp-gallery__cta">
             <span>View All Photos</span>
             <i className="fa fa-long-arrow-right" aria-hidden="true" />
-          </a>
+          </Link>
         </div>
       ) : null}
 
