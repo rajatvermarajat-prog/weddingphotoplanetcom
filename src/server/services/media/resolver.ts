@@ -2,8 +2,9 @@ import path from "node:path";
 import type { DerivativeRequest, MediaReference } from "./types";
 
 const LEGACY_ALIAS_PREFIXES = new Map<string, string>([
-  ["admin_image/", "uploads/admin_image/"],
-  ["../admin_image/", "uploads/admin_image/"],
+  ["uploads/admin_image/", "admin_image/"],
+  ["admin_image/", "admin_image/"],
+  ["../admin_image/", "admin_image/"],
   ["assets/uploads/", "uploads/blog/"],
 ]);
 

@@ -45,12 +45,8 @@ function normalizeSliderPath(filename: string | null | undefined): string {
 
   const normalized = normalizeLegacyMediaPath(raw);
 
-  if (normalized.startsWith("uploads/admin_image/")) {
-    return normalized;
-  }
-
   if (normalized.startsWith("admin_image/")) {
-    return normalizeLegacyMediaPath(normalized);
+    return normalized;
   }
 
   return normalizeLegacyMediaPath(`admin_image/slider/${normalized}`);

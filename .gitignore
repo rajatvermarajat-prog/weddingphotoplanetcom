@@ -6,3 +6,5 @@ coverage/
 generated/
 dist/
 *.log
+.DS_Store
+next-build.tar.gz

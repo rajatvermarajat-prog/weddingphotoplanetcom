@@ -232,7 +232,6 @@ export function GalleryShowcase({
             <i className="fa fa-angle-left" aria-hidden="true" />
           </button>
           <figure className="wpp-lightbox__figure" key={current.id} onClick={(event) => event.stopPropagation()}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={current.href} alt={current.alt} />
             <figcaption>
               {(open ?? 0) + 1} / {shown.length}

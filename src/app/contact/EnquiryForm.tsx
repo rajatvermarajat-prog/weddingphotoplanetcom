@@ -7,7 +7,7 @@ const MESSAGE_MAX = 600;
 
 type Values = { name: string; phone: string; email: string; eventType: string; date: string; location: string; message: string };
 type Errors = Partial<Record<"name" | "phone" | "email", string>>;
-type Channel = "whatsapp" | "email";
+type Channel = "site" | "whatsapp" | "email";
 
 const emptyValues: Values = { name: "", phone: "", email: "", eventType: "", date: "", location: "", message: "" };
 
@@ -51,11 +51,12 @@ function Field({ id, label, optional = false, error, children }: { id: string; l
   );
 }
 
-// There is no enquiry backend: the form hands the filled-in enquiry to WhatsApp or the visitor's mail app.
 export default function EnquiryForm({ whatsappNumber, email, idPrefix = "ct" }: { whatsappNumber: string; email: string; idPrefix?: string }) {
   const [values, setValues] = useState<Values>(emptyValues);
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState<Channel | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const id = (name: string) => `${idPrefix}-${name}`;
 
@@ -71,9 +72,10 @@ export default function EnquiryForm({ whatsappNumber, email, idPrefix = "ct" }: 
       : `mailto:${email}?subject=${encodeURIComponent(`Enquiry from ${values.name.trim()}`)}&body=${encodeURIComponent(message)}`;
   };
 
-  const send = (channel: Channel) => {
+  const send = (channel: Exclude<Channel, "site">) => {
     const found = validate(values);
     setErrors(found);
+    setSubmitError("");
     const firstInvalid = (["name", "phone", "email"] as const).find((key) => found[key]);
     if (firstInvalid) {
       formRef.current?.querySelector<HTMLInputElement>(`[name="${firstInvalid}"]`)?.focus();
@@ -84,27 +86,57 @@ export default function EnquiryForm({ whatsappNumber, email, idPrefix = "ct" }: 
     setSent(channel);
   };
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    send("whatsapp");
+    const found = validate(values);
+    setErrors(found);
+    setSubmitError("");
+    const firstInvalid = (["name", "phone", "email"] as const).find((key) => found[key]);
+    if (firstInvalid) {
+      formRef.current?.querySelector<HTMLInputElement>(`[name="${firstInvalid}"]`)?.focus();
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+      if (!response.ok) {
+        throw new Error(result?.message || "Could not submit your enquiry");
+      }
+      setSent("site");
+      setValues(emptyValues);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Could not submit your enquiry");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (sent) {
-    const app = sent === "whatsapp" ? "WhatsApp" : "Your mail app";
+    const app = sent === "whatsapp" ? "WhatsApp" : sent === "email" ? "Your mail app" : "Wedding Photo Planet";
     return (
       <div className="ct-done" role="status">
         <svg className="ct-done__tick" width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
           <circle cx="36" cy="36" r="33" stroke="currentColor" strokeWidth="3" />
           <path d="M22 37l10 10 19-21" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <h3 className="ct-done__title">One last step, {values.name.trim().split(/\s+/)[0]}</h3>
-        <p className="ct-done__text">{app} has opened with your enquiry filled in. Press send there and it reaches us.</p>
+        <h3 className="ct-done__title">{sent === "site" ? "Enquiry sent" : `One last step, ${values.name.trim().split(/\s+/)[0]}`}</h3>
+        <p className="ct-done__text">
+          {sent === "site" ? "Thank you for contacting us. We will get back to you soon." : `${app} has opened with your enquiry filled in. Press send there and it reaches us.`}
+        </p>
         <div className="ct-done__actions">
-          <a className="ct-btn ct-btn--gold" href={linkFor(sent)} target={sent === "whatsapp" ? "_blank" : undefined} rel="noopener noreferrer">
-            Open {sent === "whatsapp" ? "WhatsApp" : "mail app"} again
-          </a>
+          {sent === "site" ? null : (
+            <a className="ct-btn ct-btn--gold" href={linkFor(sent)} target={sent === "whatsapp" ? "_blank" : undefined} rel="noopener noreferrer">
+              Open {sent === "whatsapp" ? "WhatsApp" : "mail app"} again
+            </a>
+          )}
           <button type="button" className="ct-btn ct-btn--line" onClick={() => setSent(null)}>
-            Edit enquiry
+            {sent === "site" ? "Send another enquiry" : "Edit enquiry"}
           </button>
         </div>
       </div>
@@ -208,17 +240,26 @@ export default function EnquiryForm({ whatsappNumber, email, idPrefix = "ct" }: 
       </Field>
 
       <div className="ct-form__actions">
-        <button type="submit" className="ct-btn ct-btn--gold ct-btn--wide">
+        <button type="submit" className="ct-btn ct-btn--gold ct-btn--wide" disabled={submitting}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+            <path d="M22 2 11 13" />
+            <path d="m22 2-7 20-4-9-9-4 20-7z" />
           </svg>
-          Send on WhatsApp
+          {submitting ? "Sending..." : "Submit enquiry"}
+        </button>
+        <button type="button" className="ct-btn ct-btn--line" onClick={() => send("whatsapp")} disabled={submitting}>
+          WhatsApp
         </button>
         <button type="button" className="ct-btn ct-btn--line" onClick={() => send("email")}>
-          Send by Email
+          Email
         </button>
       </div>
-      <p className="ct-form__note">Your enquiry opens in WhatsApp or your mail app, ready to send. Nothing is stored on this site.</p>
+      {submitError ? (
+        <p className="ct-field__error" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+      <p className="ct-form__note">Your enquiry is sent to Wedding Photo Planet. WhatsApp and email are available as backup options.</p>
     </form>
   );
 }

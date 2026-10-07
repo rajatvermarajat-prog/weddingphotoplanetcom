@@ -88,4 +88,11 @@ export default tseslint.config(
   js.configs.recommended,
   ...compat.extends("next/core-web-vitals"),
   ...tseslint.configs.recommended,
+  {
+    rules: {
+      "@next/next/no-css-tags": "off",
+      "@next/next/no-img-element": "off",
+      "@next/next/no-page-custom-font": "off",
+    },
+  },
 );
